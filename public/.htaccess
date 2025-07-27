@@ -1,0 +1,5 @@
+RewriteEngine On
+RewriteBase /phan_mem_quan_ly_ban_dien_thoai_iphone/public/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)$ index.php?url=$1 [QSA,L]
