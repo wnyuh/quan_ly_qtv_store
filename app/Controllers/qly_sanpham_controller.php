@@ -30,8 +30,7 @@ class qly_sanpham_controller
         $products = $spModel->all(); // hoặc phương thức phù hợp của bạn
 
         // 3) Nạp giao diện
-        include __DIR__ . '/../Views/layouts/header.php';
-        include __DIR__ . '/../Views/admin/menu_chung.php';
+        include __DIR__ . '/../Views/layouts/admin_head.php';
         include __DIR__ . '/../Views/admin/qly_sanpham/index.php';  // view danh sách
         include __DIR__ . '/../Views/layouts/footer.php';
     }

@@ -95,8 +95,7 @@ class admin_controller
             ->fetchAll(PDO::FETCH_ASSOC);
 
         // Include header, menu, view thống kê, footer
-//        include __DIR__ . '/../Views/layouts/header.php';
-        include __DIR__ . '/../Views/admin/menu_chung.php';
+        include __DIR__ . '/../Views/layouts/admin_head.php';
         include __DIR__ . '/../Views/admin/thongkedoanhthu.php';
         include __DIR__ . '/../Views/layouts/footer.php';
     }

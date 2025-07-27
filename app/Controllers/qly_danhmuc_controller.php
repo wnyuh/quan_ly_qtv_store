@@ -16,7 +16,7 @@ class qly_danhmuc_controller
     public function index()
     {
         $dms = $this->m->all();
-        include __DIR__ . '/../Views/admin/menu_chung.php';
+        include __DIR__ . '/../Views/layouts/admin_head.php';
         include __DIR__ . '/../Views/admin/qly_danhmuc.php';
     }
 

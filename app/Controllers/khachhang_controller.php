@@ -10,7 +10,7 @@ class khachhang_controller
 
     public function __construct(PDO $pdo)
     {
-        session_start();
+//        session_start();
         $this->m = new KhachHang($pdo);
     }
 
@@ -49,7 +49,7 @@ class khachhang_controller
             }
         }
 
-        include __DIR__ . '/../Views/khachhang/login.php';
+//        include __DIR__ . '/../Views/khachhang/login.php';
     }
 
     /**
@@ -79,9 +79,9 @@ class khachhang_controller
      */
     public function index()
     {
-        $this->auth();
+//        $this->auth();
         $dskh = $this->m->all();
-        include __DIR__ . '/../Views/layouts/header.php';
+        include __DIR__ . '/../Views/layouts/admin_head.php';
         include __DIR__ . '/../Views/khachhang/index.php';
         include __DIR__ . '/../Views/layouts/footer.php';
     }

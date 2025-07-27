@@ -20,7 +20,7 @@ class qly_donhang_controller
     public function index()
     {
         $dhs = $this->mDh->all();
-        include __DIR__ . '/../Views/admin/menu_chung.php';
+        include __DIR__ . '/../Views/layouts/admin_head.php';
         include __DIR__ . '/../Views/admin/qly_donhang.php';
     }
 
