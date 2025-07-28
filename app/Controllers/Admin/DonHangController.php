@@ -131,7 +131,6 @@ class DonHangController
 
     private function requireAuth(): void
     {
-        session_start();
         if (!isset($_SESSION['admin_id'])) {
             header('Location: /admin/login');
             exit;

@@ -59,6 +59,14 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('GET',    '/admin/thuong-hieu/chi-tiet/{id:\d+}', ['App\Controllers\Admin\ThuongHieuController', 'chiTiet']);
     $r->addRoute('POST',   '/admin/thuong-hieu/xoa/{id:\d+}',      ['App\Controllers\Admin\ThuongHieuController', 'xoa']);
 
+    // Admin order routes
+    $r->addRoute('GET',              '/admin/don-hang',                ['App\Controllers\Admin\DonHangController', 'danhSach']);
+    $r->addRoute(['GET','POST'],     '/admin/don-hang/them',           ['App\Controllers\Admin\DonHangController', 'them']);
+    $r->addRoute('GET',              '/admin/don-hang/chi-tiet/{id:\d+}', ['App\Controllers\Admin\DonHangController', 'chiTiet']);
+    $r->addRoute(['GET','POST'],     '/admin/don-hang/sua/{id:\d+}',      ['App\Controllers\Admin\DonHangController', 'sua']);
+    $r->addRoute('POST',             '/admin/don-hang/xoa/{id:\d+}',      ['App\Controllers\Admin\DonHangController', 'xoa']);
+
+
     // {id:\d+} means the 'id' parameter must be a digit
     // Định tuyến cho các thao tác giỏ hàng
     $r->addRoute('GET', '/gio-hang', ['App\Controllers\GioHangController', 'index']);
