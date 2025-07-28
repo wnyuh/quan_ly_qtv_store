@@ -46,12 +46,18 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute(['GET', 'POST'], '/admin/san-pham/sua/{id:\d+}', ['App\Controllers\Admin\SanPhamController', 'sua']);
     $r->addRoute('GET', '/admin/san-pham/chi-tiet/{id:\d+}', ['App\Controllers\Admin\SanPhamController', 'chiTiet']);
     $r->addRoute('POST', '/admin/san-pham/xoa/{id:\d+}', ['App\Controllers\Admin\SanPhamController', 'xoa']);
-    
-    // {id:\d+} means the 'id' parameter must be a digit
-    $r->addRoute('GET', '/gio-hang', ['App\Controllers\GioHangController', 'index']);
-    $r->addRoute('POST', '/gio-hang/xoa', ['App\Controllers\GioHangController', 'xoa']);
-    $r->addRoute('POST', '/gio-hang/cap-nhat', ['App\Controllers\GioHangController', 'capNhat']);
 
+    // {id:\d+} means the 'id' parameter must be a digit
+    // Định tuyến cho các thao tác giỏ hàng
+    $r->addRoute('GET', '/gio-hang', ['App\Controllers\GioHangController', 'index']);
+    $r->addRoute('POST', '/gio-hang/cap-nhat', ['App\Controllers\GioHangController', 'capNhat']);
+    $r->addRoute(['GET', 'POST'], '/gio-hang/xoa', ['App\Controllers\GioHangController', 'xoa']);
+    $r->addRoute('GET', '/gio-hang/checkout', ['App\Controllers\GioHangController', 'checkout']);
+
+    ///
+    $r->addRoute('GET', '/dang-nhap', ['App\Controllers\AuthController', 'dangNhap']);
+    $r->addRoute('POST', '/dang-nhap', ['App\Controllers\AuthController', 'dangNhap']);
+    $r->addRoute('GET', '/dang-xuat', ['App\Controllers\AuthController', 'dangXuat']);
 });
 
 // 4. Fetch the request method and URI

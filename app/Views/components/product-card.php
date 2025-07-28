@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Product Card Component
  * 
@@ -24,30 +25,30 @@ $cardClass = $sizeClasses[$size] ?? $sizeClasses['medium'];
     <a href="/san-pham/<?= htmlspecialchars($sanPham->getDuongDan()) ?>" class="block">
         <!-- Product Image -->
         <div class="aspect-square flex items-center justify-center">
-            <?php 
+            <?php
             $hinhAnhChinh = $sanPham->getHinhAnhChinh();
-            if ($hinhAnhChinh): 
+            if ($hinhAnhChinh):
             ?>
-                <img src="<?= htmlspecialchars($hinhAnhChinh->getFullUrl()) ?>" 
-                     alt="<?= htmlspecialchars($sanPham->getTen()) ?>"
-                     class="max-w-full max-h-full object-contain scale-90 hover:scale-100 transition-all">
+                <img src="<?= htmlspecialchars($hinhAnhChinh->getFullUrl()) ?>"
+                    alt="<?= htmlspecialchars($sanPham->getTen()) ?>"
+                    class="max-w-full max-h-full object-contain scale-90 hover:scale-100 transition-all">
             <?php else: ?>
                 <div class="text-6xl">📱</div>
             <?php endif; ?>
         </div>
-        
+
         <!-- Product Info -->
         <div class="p-4">
             <!-- Product Name -->
             <h3 class="font-semibold text-foreground mb-2" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
                 <?= htmlspecialchars($sanPham->getTen()) ?>
             </h3>
-            
+
             <!-- Brand -->
             <p class="text-sm text-muted-foreground mb-2">
                 <?= htmlspecialchars($sanPham->getThuongHieu()->getTen()) ?>
             </p>
-            
+
             <!-- Price -->
             <div class="flex flex-col mb-3">
                 <span class="text-lg font-bold text-primary">
@@ -59,14 +60,14 @@ $cardClass = $sizeClasses[$size] ?? $sizeClasses['medium'];
                     </span>
                 <?php endif; ?>
             </div>
-            
+
             <!-- Product Description -->
             <?php if ($showDescription && $sanPham->getMoTaNgan()): ?>
                 <p class="text-xs text-muted-foreground mb-2" style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
                     <?= htmlspecialchars($sanPham->getMoTaNgan()) ?>
                 </p>
             <?php endif; ?>
-            
+
             <!-- Product Badges -->
             <div class="flex gap-2">
                 <?php if ($sanPham->isNoiBat()): ?>
@@ -74,15 +75,15 @@ $cardClass = $sizeClasses[$size] ?? $sizeClasses['medium'];
                         Nổi bật
                     </span>
                 <?php endif; ?>
-                
+
                 <?php if ($sanPham->getGiaSoSanh() && $sanPham->getGiaSoSanh() > $sanPham->getGia()): ?>
-                    <?php 
+                    <?php
                     $discount = round((($sanPham->getGiaSoSanh() - $sanPham->getGia()) / $sanPham->getGiaSoSanh()) * 100);
                     ?>
                     <span class="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full">
                         -<?= $discount ?>%
                     </span>
-                    
+
                 <?php endif; ?>
             </div>
         </div>
