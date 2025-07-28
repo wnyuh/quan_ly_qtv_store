@@ -11,9 +11,6 @@ class AuthController
     public function __construct()
     {
         $this->em = require __DIR__ . '/../../config/doctrine.php';
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
     }
 
     public function dangNhap()

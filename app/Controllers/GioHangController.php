@@ -40,10 +40,6 @@ class GioHangController
             return;
         }
 
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         if (isset($_SESSION['user_id'])) {
             $this->themVaoGioNguoiDung($_SESSION['user_id'], $bienThe, $soLuong);
         } else {
@@ -134,10 +130,6 @@ class GioHangController
 
     public function index()
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         $cartItems = []; // <--- Dùng mảng mới này
 
         if (isset($_SESSION['user_id'])) {
@@ -271,10 +263,6 @@ class GioHangController
 
     public function checkout()
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         // Nếu chưa đăng nhập, chuyển sang trang đăng nhập và truyền kèm redirect
         if (!isset($_SESSION['user_id'])) {
             $_SESSION['redirect_after_login'] = '/gio-hang/checkout';
