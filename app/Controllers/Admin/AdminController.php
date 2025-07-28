@@ -4,6 +4,7 @@ namespace App\Controllers\Admin;
 
 use App\Models\Admin;
 use App\Models\DonHang;
+use App\Models\NguoiDung;
 use App\Models\SanPham;
 
 class AdminController
@@ -73,6 +74,10 @@ class AdminController
         $don_hang_repository = $this->em->getRepository(DonHang::class);
 
         $don_hang_count = $don_hang_repository->count([]);
+        // Lấy dữ  liệu của khách hàng
+        $nguoi_dung_repository = $this->em->getRepository(NguoiDung::class);
+
+        $nguoi_dung_count = $nguoi_dung_repository->count([]);
 
 
         admin_view('admin/dashboard', [
@@ -82,6 +87,7 @@ class AdminController
             'kich_hoat_sp_count' => $kich_hoat_sp_count,
             'noi_bat_sp_count' => $noi_bat_sp_count,
             'doanh_thu' => $this->getDoanhThu(),
+            'nguoi_dung_count' => $nguoi_dung_count,
         ]);
     }
 
