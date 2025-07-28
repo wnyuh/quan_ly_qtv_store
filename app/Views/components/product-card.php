@@ -70,8 +70,14 @@ $cardClass = $sizeClasses[$size] ?? $sizeClasses['medium'];
             <!-- Product Badges -->
             <div class="flex gap-2">
                 <?php if ($sanPham->isNoiBat()): ?>
-                    <span class="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded-full">
+                    <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
                         Nổi bật
+                    </span>
+                <?php endif; ?>
+
+                <?php if ($sanPham->isSpMoi()): ?>
+                    <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
+                        Sản phẩm mới
                     </span>
                 <?php endif; ?>
                 
