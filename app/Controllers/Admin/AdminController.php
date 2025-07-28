@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\Models\Admin;
+use App\Models\SanPham;
 
 class AdminController
 {
@@ -58,9 +59,20 @@ class AdminController
     public function dashboard()
     {
         $this->requireAuth();
-        
+
+        $san_pham_repository = $this->em->getRepository(SanPham::class);
+
+        $tong_sp_count = $san_pham_repository->count([]);
+
+        $kich_hoat_sp_count = $san_pham_repository->count(['kichHoat' => true]);
+
+        $noi_bat_sp_count = $san_pham_repository->count(['noiBat' => true, 'kichHoat' => true]);
+
         admin_view('admin/dashboard', [
-            'pageTitle' => 'Admin Dashboard'
+            'pageTitle' => 'Admin Dashboard',
+            'tong_sp_count' => $tong_sp_count,
+            'kich_hoat_sp_count' => $kich_hoat_sp_count,
+            'noi_bat_sp_count' => $noi_bat_sp_count,
         ]);
     }
 

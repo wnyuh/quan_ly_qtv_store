@@ -182,6 +182,7 @@ class SanPhamController
         $sanPham->setGiaSoSanh(floatval($_POST['gia_so_sanh'] ?? 0));
         $sanPham->setKichHoat(isset($_POST['kich_hoat']));
         $sanPham->setNoiBat(isset($_POST['noi_bat']));
+        $sanPham->setSpMoi(isset($_POST['sp_moi']));
 
         if (!empty($_POST['duong_dan'])) {
             $sanPham->setDuongDan($_POST['duong_dan']);
