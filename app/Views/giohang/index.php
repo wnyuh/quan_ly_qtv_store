@@ -1,96 +1,257 @@
-<h2 class="text-2xl font-bold mb-6 text-foreground">Giỏ hàng của bạn</h2>
-
-<?php if (empty($cartItems)): ?>
-    <div class="rounded-2xl border border-border bg-muted/50 p-6 text-center text-muted-foreground shadow-sm">
-        Chưa có sản phẩm nào trong giỏ hàng.
-    </div>
-<?php else: ?>
-    <form method="post" action="/gio-hang/cap-nhat">
-        <div class="w-full overflow-x-auto rounded-2xl shadow-lg bg-card border border-yellow-300">
-            <table class="w-full divide-y divide-border">
-                <thead class="bg-yellow-50 border-b-2 border-yellow-200">
-                    <tr>
-                        <th class="px-4 py-4 text-left">Ảnh</th>
-                        <th class="px-6 py-4 text-left text-xs font-bold text-muted-foreground uppercase">Tên sản phẩm</th>
-                        <th class="px-6 py-4 text-center text-xs font-bold text-muted-foreground uppercase">Số lượng</th>
-                        <th class="px-6 py-4 text-right text-xs font-bold text-muted-foreground uppercase">Đơn giá</th>
-                        <th class="px-6 py-4 text-right text-xs font-bold text-muted-foreground uppercase">Thành tiền</th>
-                        <th class="px-4 py-4"></th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-border bg-background">
-                    <?php
-                    $tong = 0;
-                    foreach ($cartItems as $index => $item):
-                        $bienThe = $item['bienThe'];
-                        $qty = $item['qty'];
-                        $sanPham = $bienThe->getSanPham();
-                        $thanhTien = $bienThe->getGia() * $qty;
-                        $tong += $thanhTien;
-                        // Lấy ảnh đại diện biến thể (nếu có)
-                        $hinhAnhs = $bienThe->getHinhAnhs();
-                        $hinhAnhObj = is_array($hinhAnhs) ? ($hinhAnhs[0] ?? null) : ($hinhAnhs->first() ?: null);
-                        $image = $hinhAnhObj && method_exists($hinhAnhObj, 'getDuongDan')
-                            ? '/images/' . ltrim($hinhAnhObj->getDuongDan(), '/')
-                            : null;
-                    ?>
-                        <tr class="hover:bg-yellow-50 transition-colors">
-                            <td class="px-4 py-4">
-                                <?php if (!empty($image)): ?>
-                                    <img src="<?= htmlspecialchars($image) ?>" alt="<?= htmlspecialchars($bienThe->getTenDayDu()) ?>"
-                                        class="w-12 h-12 object-cover rounded-xl bg-slate-200 border border-border shadow" />
-                                <?php else: ?>
-                                    <span class="inline-flex items-center justify-center bg-muted rounded-full w-12 h-12">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round">
-                                            <rect width="18" height="18" x="3" y="3" rx="2" />
-                                            <path d="m9 9 6 6M15 9l-6 6" />
-                                        </svg>
-                                    </span>
-                                <?php endif; ?>
-                            </td>
-                            <td class="px-6 py-4 text-base font-medium text-foreground">
-                                <?= htmlspecialchars($bienThe->getTenDayDu()) ?>
-                                <div class="text-xs text-muted-foreground"><?= htmlspecialchars($sanPham->getThuongHieu()->getTen() ?? '') ?></div>
-                            </td>
-                            <td class="px-6 py-4 text-center">
-                                <input type="number" onchange="this.form.submit()" name="quantities[<?= $index ?>]" value="<?= $qty ?>" min="0"
-                                    class="w-16 text-center border rounded-lg py-1 bg-background focus:outline-primary focus:ring-2 focus:ring-primary/40 shadow transition" />
-                                <input type="hidden" name="ids[<?= $index ?>]" value="<?= htmlspecialchars($bienThe->getId()) ?>">
-                            </td>
-                            <td class="px-6 py-4 text-right"><?= number_format($bienThe->getGia(), 0, ',', '.') ?> ₫</td>
-                            <td class="px-6 py-4 text-right font-semibold"><?= number_format($thanhTien, 0, ',', '.') ?> ₫</td>
-                            <td class="px-4 py-4 text-center">
-                                <button formaction="/gio-hang/xoa?id=<?= htmlspecialchars($bienThe->getId()) ?>" formmethod="post" type="submit"
-                                    class="rounded-lg p-2 bg-destructive hover:bg-destructive/80 text-destructive-foreground transition-colors shadow-sm"
-                                    title="Xóa khỏi giỏ hàng">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"
-                                        stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M3 6h18M9 6v12a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2V6" />
-                                        <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
-                                    </svg>
-                                </button>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                    <tr>
-                        <td colspan="4" class="px-6 py-4 text-right font-bold text-base bg-yellow-50 border-t-2 border-yellow-200">Tổng cộng:</td>
-                        <td class="px-6 py-4 text-right font-extrabold text-yellow-600 text-lg bg-yellow-50 border-t-2 border-yellow-200" colspan="2">
-                            <?= number_format($tong, 0, ',', '.') ?> ₫
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+<div class="space-y-6">
+    <!-- Header -->
+    <div class="flex items-center justify-between">
+        <div>
+            <h1 class="text-3xl font-bold text-foreground">Giỏ hàng</h1>
+            <p class="text-muted-foreground mt-1">Quản lý sản phẩm trong giỏ hàng của bạn</p>
         </div>
-        <div class="flex flex-col sm:flex-row justify-end gap-4 mt-8 w-full">
-            <a href="/gio-hang/checkout"
-                class="rounded-2xl px-8 py-3 text-base font-bold bg-gradient-to-r from-emerald-400 to-green-600 text-white shadow hover:brightness-110 transition flex items-center gap-2 sm:w-auto w-full border-0 outline-none">
-                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" class="inline"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M12 5v14M5 12l7-7 7 7" />
+        <div class="text-right">
+            <div class="text-sm text-muted-foreground">Tổng số sản phẩm</div>
+            <div class="text-2xl font-bold text-primary"><?= count($cartItems) ?></div>
+        </div>
+    </div>
+
+    <?php if (empty($cartItems)): ?>
+        <!-- Empty Cart State -->
+        <div class="card text-center py-12">
+            <div class="mx-auto w-24 h-24 bg-muted rounded-full flex items-center justify-center mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground">
+                    <circle cx="8" cy="21" r="1"/>
+                    <circle cx="19" cy="21" r="1"/>
+                    <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57L20.3 9H5.12"/>
                 </svg>
-                Thanh toán
+            </div>
+            <h3 class="text-xl font-semibold text-foreground mb-2">Giỏ hàng trống</h3>
+            <p class="text-muted-foreground mb-6">Chưa có sản phẩm nào trong giỏ hàng của bạn</p>
+            <a href="/" class="btn inline-flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 12h18m-9-9l9 9-9 9"/>
+                </svg>
+                Tiếp tục mua sắm
             </a>
         </div>
-    </form>
-<?php endif; ?>
+    <?php else: ?>
+        <form method="post" action="/gio-hang/cap-nhat" class="space-y-6">
+            <!-- Cart Items -->
+            <div class="card">
+                <header>
+                    <h2>Sản phẩm trong giỏ</h2>
+                    <p><?= count($cartItems) ?> sản phẩm</p>
+                </header>
+                <section class="p-0">
+                    <div class="divide-y divide-border">
+                        <?php
+                        $tong = 0;
+                        foreach ($cartItems as $index => $item):
+                            $bienThe = $item['bienThe'];
+                            $qty = $item['qty'];
+                            $sanPham = $bienThe->getSanPham();
+                            $thanhTien = $bienThe->getGia() * $qty;
+                            $tong += $thanhTien;
+                            // Lấy ảnh đại diện biến thể (nếu có)
+                            $hinhAnhs = $bienThe->getHinhAnhs();
+                            $hinhAnhObj = is_array($hinhAnhs) ? ($hinhAnhs[0] ?? null) : ($hinhAnhs->first() ?: null);
+                            $image = $hinhAnhObj && method_exists($hinhAnhObj, 'getDuongDan')
+                                ? '/images/' . ltrim($hinhAnhObj->getDuongDan(), '/')
+                                : null;
+                        ?>
+                            <div class="flex items-start gap-4 p-6 hover:bg-muted/30 transition-colors">
+                                <!-- Product Image -->
+                                <div class="flex-shrink-0">
+                                    <?php if (!empty($image)): ?>
+                                        <img src="<?= htmlspecialchars($image) ?>" 
+                                             alt="<?= htmlspecialchars($bienThe->getTenDayDu()) ?>"
+                                             class="w-20 h-20 object-cover rounded-lg border border-border shadow-sm" />
+                                    <?php else: ?>
+                                        <div class="w-20 h-20 bg-muted rounded-lg border border-border flex items-center justify-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground">
+                                                <rect width="18" height="18" x="3" y="3" rx="2"/>
+                                                <path d="m9 15 6-6m0 6-6-6"/>
+                                            </svg>
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+
+                                <!-- Product Details -->
+                                <div class="flex-1 min-w-0">
+                                    <div class="flex items-start justify-between gap-4">
+                                        <div class="flex-1">
+                                            <h3 class="text-lg font-semibold text-foreground line-clamp-2">
+                                                <?= htmlspecialchars($bienThe->getTenDayDu()) ?>
+                                            </h3>
+                                            <p class="text-sm text-muted-foreground mt-1">
+                                                <?= htmlspecialchars($sanPham->getThuongHieu()->getTen() ?? '') ?>
+                                            </p>
+                                            <div class="flex items-center gap-4 mt-3">
+                                                <div class="text-lg font-bold text-primary">
+                                                    <?= number_format($bienThe->getGia(), 0, ',', '.') ?> ₫
+                                                </div>
+                                                <?php if ($bienThe->getGiaSoSanh() && $bienThe->getGiaSoSanh() > $bienThe->getGia()): ?>
+                                                    <div class="text-sm text-muted-foreground line-through">
+                                                        <?= number_format($bienThe->getGiaSoSanh(), 0, ',', '.') ?> ₫
+                                                    </div>
+                                                <?php endif; ?>
+                                            </div>
+                                        </div>
+
+                                        <!-- Quantity Controls -->
+                                        <div class="flex items-center gap-3">
+                                            <div class="flex items-center border border-border rounded-lg">
+                                                <input type="number" 
+                                                       name="quantities[<?= $index ?>]" 
+                                                       value="<?= $qty ?>" 
+                                                       min="0"
+                                                       class="w-16 text-center border-0 bg-transparent focus:outline-none py-2" 
+                                                       onchange="handleQuantityChange(this, <?= $index ?>)" />
+                                                <input type="hidden" name="ids[<?= $index ?>]" value="<?= htmlspecialchars($bienThe->getId()) ?>">
+                                            </div>
+
+                                            <!-- Remove Button -->
+                                            <button formaction="/gio-hang/xoa?id=<?= htmlspecialchars($bienThe->getId()) ?>" 
+                                                    formmethod="post" 
+                                                    type="submit"
+                                                    class="p-2 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-lg transition-colors"
+                                                    title="Xóa khỏi giỏ hàng">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path d="M3 6h18"/>
+                                                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+                                                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Subtotal -->
+                                    <div class="flex justify-between items-center mt-4 pt-4 border-t border-border">
+                                        <span class="text-sm text-muted-foreground">Thành tiền:</span>
+                                        <div class="text-xl font-bold text-foreground">
+                                            <?= number_format($thanhTien, 0, ',', '.') ?> ₫
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-1">
+                    <div class="card sticky top-6">
+                        <header>
+                            <h3>Tóm tắt đơn hàng</h3>
+                            <p>Chi tiết thanh toán</p>
+                        </header>
+                        <section>
+                            <div class="space-y-4">
+                                <div class="flex justify-between items-center">
+                                    <span class="text-muted-foreground">Tạm tính:</span>
+                                    <span class="font-semibold"><?= number_format($tong, 0, ',', '.') ?> ₫</span>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <span class="text-muted-foreground">Phí vận chuyển:</span>
+                                    <span class="text-sm text-muted-foreground">Miễn phí</span>
+                                </div>
+                                <div class="border-t border-border pt-4">
+                                    <div class="flex justify-between items-center">
+                                        <span class="text-lg font-semibold text-foreground">Tổng cộng:</span>
+                                        <span class="text-2xl font-bold text-primary"><?= number_format($tong, 0, ',', '.') ?> ₫</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <footer class="space-y-3">
+                            <a href="/gio-hang/checkout" class="btn w-full">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M9 12l2 2 4-4"/>
+                                    <path d="M21 12c-1 0-3-1-3-3s2-3 3-3 3 1 3 3-2 3-3 3"/>
+                                    <path d="M3 12c1 0 3-1 3-3s-2-3-3-3-3 1-3 3 2 3 3 3"/>
+                                </svg>
+                                Tiến hành thanh toán
+                            </a>
+                        </footer>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-2">
+                    <div class="card">
+                        <header>
+                            <h3>Gợi ý cho bạn</h3>
+                            <p>Sản phẩm có thể bạn quan tâm</p>
+                        </header>
+                        <section>
+                            <div class="text-center py-8 text-muted-foreground">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="mx-auto mb-4">
+                                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                                    <line x1="3" x2="21" y1="6" y2="6"/>
+                                    <path d="M16 10a4 4 0 0 1-8 0"/>
+                                </svg>
+                                Chức năng gợi ý sản phẩm đang được phát triển
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <!-- Confirmation Dialog -->
+        <dialog id="remove-dialog" class="dialog" aria-labelledby="remove-dialog-title" aria-describedby="remove-dialog-description">
+            <article>
+                <header>
+                    <h2 id="remove-dialog-title">Xác nhận xóa sản phẩm</h2>
+                    <p id="remove-dialog-description">Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng không? Hành động này không thể hoàn tác.</p>
+                </header>
+
+                <footer>
+                    <button class="btn-outline" onclick="cancelRemove()">Hủy bỏ</button>
+                    <button class="btn" onclick="confirmRemove()">Xác nhận xóa</button>
+                </footer>
+            </article>
+        </dialog>
+
+        <script>
+        let pendingRemovalInput = null;
+        let originalValue = null;
+
+        function handleQuantityChange(input, index) {
+            const newValue = parseInt(input.value);
+            const oldValue = parseInt(input.getAttribute('data-original-value') || input.defaultValue);
+            
+            // Store original value if not set
+            if (!input.hasAttribute('data-original-value')) {
+                input.setAttribute('data-original-value', oldValue);
+            }
+            
+            // If changing from 1 to 0, show confirmation dialog
+            if (oldValue === 1 && newValue === 0) {
+                pendingRemovalInput = input;
+                originalValue = oldValue;
+                document.getElementById('remove-dialog').showModal();
+            } else {
+                // Submit form for other changes
+                input.form.submit();
+            }
+        }
+
+        function cancelRemove() {
+            if (pendingRemovalInput && originalValue !== null) {
+                pendingRemovalInput.value = originalValue;
+            }
+            document.getElementById('remove-dialog').close();
+            pendingRemovalInput = null;
+            originalValue = null;
+        }
+
+        function confirmRemove() {
+            if (pendingRemovalInput) {
+                pendingRemovalInput.form.submit();
+            }
+            document.getElementById('remove-dialog').close();
+            pendingRemovalInput = null;
+            originalValue = null;
+        }
+        </script>
+
+    <?php endif; ?>
+</div>

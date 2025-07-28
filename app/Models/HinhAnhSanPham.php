@@ -119,6 +119,14 @@ class HinhAnhSanPham
 
     public function getFullUrl(): string
     {
-        return '/images/' . $this->duongDanHinh;
+        if ($this->duongDanHinh) {
+            if (str_starts_with($this->duongDanHinh, 'http') || str_starts_with($this->duongDanHinh, 'data:')) {
+                return $this->duongDanHinh;
+            } else {
+                return '/images/' . $this->duongDanHinh;
+            }
+        }
+
+        return '/images/placeholder.png';
     }
 }
