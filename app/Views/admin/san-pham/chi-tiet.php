@@ -210,6 +210,15 @@
                             </div>
                         <?php endif; ?>
 
+                        <?php if ($sanPham->isSpMoi()): ?>
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm font-medium text-muted-foreground">Sản phẩm mới</span>
+                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                                    ⭐ Sản phẩm mới
+                                </span>
+                            </div>
+                        <?php endif; ?>
+
                         <div class="flex items-center justify-between">
                             <span class="text-sm font-medium text-muted-foreground">Ngày tạo</span>
                             <span class="text-sm text-foreground"><?= $sanPham->getNgayTao()->format('d/m/Y H:i') ?></span>

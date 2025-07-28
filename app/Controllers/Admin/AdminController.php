@@ -3,6 +3,9 @@
 namespace App\Controllers\Admin;
 
 use App\Models\Admin;
+use App\Models\DonHang;
+use App\Models\NguoiDung;
+use App\Models\SanPham;
 
 class AdminController
 {
@@ -58,9 +61,33 @@ class AdminController
     public function dashboard()
     {
         $this->requireAuth();
-        
+        // Lấy dữ  liệu của bảng sản phẩm
+        $san_pham_repository = $this->em->getRepository(SanPham::class);
+
+        $tong_sp_count = $san_pham_repository->count([]);
+
+        $kich_hoat_sp_count = $san_pham_repository->count(['kichHoat' => true]);
+
+        $noi_bat_sp_count = $san_pham_repository->count(['noiBat' => true, 'kichHoat' => true]);
+
+        // Lấy dữ  liệu của bảng đơn hàng
+        $don_hang_repository = $this->em->getRepository(DonHang::class);
+
+        $don_hang_count = $don_hang_repository->count([]);
+        // Lấy dữ  liệu của khách hàng
+        $nguoi_dung_repository = $this->em->getRepository(NguoiDung::class);
+
+        $nguoi_dung_count = $nguoi_dung_repository->count([]);
+
+
         admin_view('admin/dashboard', [
-            'pageTitle' => 'Admin Dashboard'
+            'pageTitle' => 'Admin Dashboard',
+            'tong_sp_count' => $tong_sp_count,
+            'don_hang_count' => $don_hang_count,
+            'kich_hoat_sp_count' => $kich_hoat_sp_count,
+            'noi_bat_sp_count' => $noi_bat_sp_count,
+            'doanh_thu' => $this->getDoanhThu(),
+            'nguoi_dung_count' => $nguoi_dung_count,
         ]);
     }
 
@@ -71,5 +98,19 @@ class AdminController
             header('Location: /admin/login');
             exit;
         }
+    }
+
+    private function getDoanhThu(): float
+    {
+        $qb = $this->em->createQueryBuilder();
+
+        $qb->select('SUM(d.tongTien)')
+            ->from(DonHang::class, 'd')
+            ->where('d.trangThai = :trangThai') // Add a condition
+            ->setParameter('trangThai', 'da_giao_hang'); // Bind the parameter
+
+        $total = $qb->getQuery()->getSingleScalarResult();
+
+        return (float) $total;
     }
 }

@@ -6,7 +6,9 @@
                 <div class="text-2xl mr-3">📱</div>
                 <div>
                     <p class="text-sm font-medium text-muted-foreground">Sản phẩm</p>
-                    <p class="text-2xl font-bold text-foreground">--</p>
+                    <p class="text-2xl font-bold text-foreground">
+                        <?= $tong_sp_count ?>
+                    </p>
                 </div>
             </div>
         </div>
@@ -16,7 +18,9 @@
                 <div class="text-2xl mr-3">📦</div>
                 <div>
                     <p class="text-sm font-medium text-muted-foreground">Đơn hàng</p>
-                    <p class="text-2xl font-bold text-foreground">--</p>
+                    <p class="text-2xl font-bold text-foreground">
+                        <?= $don_hang_count ?>
+                    </p>
                 </div>
             </div>
         </div>
@@ -26,7 +30,9 @@
                 <div class="text-2xl mr-3">👥</div>
                 <div>
                     <p class="text-sm font-medium text-muted-foreground">Khách hàng</p>
-                    <p class="text-2xl font-bold text-foreground">--</p>
+                    <p class="text-2xl font-bold text-foreground">
+                        <?= $nguoi_dung_count ?>
+                    </p>
                 </div>
             </div>
         </div>
@@ -36,7 +42,9 @@
                 <div class="text-2xl mr-3">💰</div>
                 <div>
                     <p class="text-sm font-medium text-muted-foreground">Doanh thu</p>
-                    <p class="text-2xl font-bold text-foreground">--</p>
+                    <p class="text-2xl font-bold text-foreground">
+                        <?= $doanh_thu ?>
+                    </p>
                 </div>
             </div>
         </div>

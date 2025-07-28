@@ -59,6 +59,9 @@ class SanPham
     #[ORM\Column(name: 'noi_bat', type: 'boolean')]
     private bool $noiBat = false;
 
+    #[ORM\Column(name: 'sp_moi', type: 'boolean')]
+    private bool $spMoi = false;
+
     #[ORM\Column(name: 'tieu_de_meta', type: 'string', length: 255, nullable: true)]
     private ?string $tieuDeMeta = null;
 
@@ -100,6 +103,10 @@ class SanPham
 
     public function setMaSanPham(string $maSanPham): self
     {
+        if ($maSanPham == '') {
+            return $this;
+        }
+
         $this->maSanPham = $maSanPham;
         return $this;
     }
@@ -122,6 +129,9 @@ class SanPham
 
     public function setDuongDan(string $duongDan): self
     {
+        if ($duongDan == '') {
+            $duongDan = $this->create_slug($this->ten);
+        }
         $this->duongDan = $duongDan;
         return $this;
     }
@@ -252,6 +262,17 @@ class SanPham
         return $this;
     }
 
+    public function isSpMoi(): bool
+    {
+        return $this->spMoi;
+    }
+
+    public function setSpMoi(bool $spMoi): self
+    {
+        $this->spMoi = $spMoi;
+        return $this;
+    }
+
     public function getTieuDeMeta(): ?string
     {
         return $this->tieuDeMeta;
@@ -323,4 +344,60 @@ class SanPham
         }
         return $this->hinhAnhs->first() ?: null;
     }
+
+
+    /**
+     * Converts a string into a URL-friendly slug.
+     *
+     * @param string $text The input string.
+     * @return string The sanitized slug.
+     */
+    function create_slug($text)
+    {
+        // 1. Replace Vietnamese characters with their non-accented counterparts
+        $vietnamese_map = [
+            'á' => 'a', 'à' => 'a', 'ả' => 'a', 'ã' => 'a', 'ạ' => 'a',
+            'ă' => 'a', 'ằ' => 'a', 'ắ' => 'a', 'ẳ' => 'a', 'ẵ' => 'a', 'ặ' => 'a',
+            'â' => 'a', 'ầ' => 'a', 'ấ' => 'a', 'ẩ' => 'a', 'ẫ' => 'a', 'ậ' => 'a',
+            'đ' => 'd',
+            'é' => 'e', 'è' => 'e', 'ẻ' => 'e', 'ẽ' => 'e', 'ẹ' => 'e',
+            'ê' => 'e', 'ề' => 'e', 'ế' => 'e', 'ể' => 'e', 'ễ' => 'e', 'ệ' => 'e',
+            'í' => 'i', 'ì' => 'i', 'ỉ' => 'i', 'ĩ' => 'i', 'ị' => 'i',
+            'ó' => 'o', 'ò' => 'o', 'ỏ' => 'o', 'õ' => 'o', 'ọ' => 'o',
+            'ô' => 'o', 'ồ' => 'o', 'ố' => 'o', 'ổ' => 'o', 'ỗ' => 'o', 'ộ' => 'o',
+            'ơ' => 'o', 'ờ' => 'o', 'ớ' => 'o', 'ở' => 'o', 'ỡ' => 'o', 'ợ' => 'o',
+            'ú' => 'u', 'ù' => 'u', 'ủ' => 'u', 'ũ' => 'u', 'ụ' => 'u',
+            'ư' => 'u', 'ừ' => 'u', 'ứ' => 'u', 'ử' => 'u', 'ữ' => 'u', 'ự' => 'u',
+            'ý' => 'y', 'ỳ' => 'y', 'ỷ' => 'y', 'ỹ' => 'y', 'ỵ' => 'y',
+            'Á' => 'A', 'À' => 'A', 'Ả' => 'A', 'Ã' => 'A', 'Ạ' => 'A',
+            'Ă' => 'A', 'Ằ' => 'A', 'Ắ' => 'A', 'Ẳ' => 'A', 'Ẵ' => 'A', 'Ặ' => 'A',
+            'Â' => 'A', 'Ầ' => 'A', 'Ấ' => 'A', 'Ẩ' => 'A', 'Ẫ' => 'A', 'Ậ' => 'A',
+            'Đ' => 'D',
+            'É' => 'E', 'È' => 'E', 'Ẻ' => 'E', 'Ẽ' => 'E', 'Ẹ' => 'E',
+            'Ê' => 'E', 'Ề' => 'E', 'Ế' => 'E', 'Ể' => 'E', 'Ễ' => 'E', 'Ệ' => 'E',
+            'Í' => 'I', 'Ì' => 'I', 'Ỉ' => 'I', 'Ĩ' => 'I', 'Ị' => 'I',
+            'Ó' => 'O', 'Ò' => 'O', 'Ỏ' => 'O', 'Õ' => 'O', 'Ọ' => 'O',
+            'Ô' => 'O', 'Ồ' => 'O', 'Ố' => 'O', 'Ổ' => 'O', 'Ỗ' => 'O', 'Ộ' => 'O',
+            'Ơ' => 'O', 'Ờ' => 'O', 'Ớ' => 'O', 'Ở' => 'O', 'Ỡ' => 'O', 'Ợ' => 'O',
+            'Ú' => 'U', 'Ù' => 'U', 'Ủ' => 'U', 'Ũ' => 'U', 'Ụ' => 'U',
+            'Ư' => 'U', 'Ừ' => 'U', 'Ứ' => 'U', 'Ử' => 'U', 'Ữ' => 'U', 'Ự' => 'U',
+            'Ý' => 'Y', 'Ỳ' => 'Y', 'Ỷ' => 'Y', 'Ỹ' => 'Y', 'Ỵ' => 'Y'
+        ];
+        $text = strtr($text, $vietnamese_map);
+
+        // 2. Convert to lowercase
+        $text = strtolower($text);
+
+        // 3. Remove characters that are not letters, numbers, or hyphens
+        $text = preg_replace('/[^a-z0-9-]+/', '-', $text);
+
+        // 4. Remove duplicate hyphens
+        $text = preg_replace('/-+/', '-', $text);
+
+        // 5. Trim hyphens from the start and end of the string
+        $text = trim($text, '-');
+
+        return $text;
+    }
+
 }
