@@ -4,7 +4,6 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -105,8 +104,6 @@ switch ($routeInfo[0]) {
 
 function getCartItemCount(): int
 {
-    // session_start();
-    
     try {
         $em = require __DIR__ . '/../config/doctrine.php';
         

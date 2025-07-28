@@ -31,7 +31,6 @@ class AdminController
             $admin = $this->em->getRepository(Admin::class)->findOneBy(['username' => $username]);
 
             if ($admin && $admin->verifyPassword($password)) {
-                session_start();
                 $_SESSION['admin_id'] = $admin->getId();
                 $_SESSION['admin_username'] = $admin->getUsername();
                 
@@ -49,7 +48,6 @@ class AdminController
 
     public function logout()
     {
-        session_start();
         unset($_SESSION['admin_id']);
         unset($_SESSION['admin_username']);
         session_destroy();
@@ -93,7 +91,6 @@ class AdminController
 
     private function requireAuth()
     {
-        session_start();
         if (!isset($_SESSION['admin_id'])) {
             header('Location: /admin/login');
             exit;
