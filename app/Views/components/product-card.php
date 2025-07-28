@@ -82,6 +82,7 @@ $cardClass = $sizeClasses[$size] ?? $sizeClasses['medium'];
                     <span class="px-2 py-1 bg-red-100 text-red-800 text-xs rounded-full">
                         -<?= $discount ?>%
                     </span>
+                    
                 <?php endif; ?>
             </div>
         </div>
