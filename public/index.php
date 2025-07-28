@@ -12,6 +12,9 @@ use App\Services\Logger;
 $logger = Logger::getInstance();
 $logger->info('Application started');
 
+// Setup default admin user
+setupDefaultAdmin();
+
 // 2. Define a simple view rendering function
 
 // 3. Create the dispatcher using FastRoute
@@ -21,6 +24,19 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('GET', '/tim-kiem-san-pham', ['App\Controllers\SanPhamController', 'timKiem']);
     $r->addRoute('GET', '/san-pham/{duongDan}', ['App\Controllers\SanPhamController', 'chiTiet']);
     $r->addRoute('POST', '/cart/add', ['App\Controllers\GioHangController', 'themVaoGio']);
+    
+    // Admin routes
+    $r->addRoute(['GET', 'POST'], '/admin/login', ['App\Controllers\Admin\AdminController', 'login']);
+    $r->addRoute('GET', '/admin/logout', ['App\Controllers\Admin\AdminController', 'logout']);
+    $r->addRoute('GET', '/admin/dashboard', ['App\Controllers\Admin\AdminController', 'dashboard']);
+    
+    // Admin product routes
+    $r->addRoute('GET', '/admin/san-pham', ['App\Controllers\Admin\SanPhamController', 'danhSach']);
+    $r->addRoute(['GET', 'POST'], '/admin/san-pham/them', ['App\Controllers\Admin\SanPhamController', 'them']);
+    $r->addRoute(['GET', 'POST'], '/admin/san-pham/sua/{id:\d+}', ['App\Controllers\Admin\SanPhamController', 'sua']);
+    $r->addRoute('GET', '/admin/san-pham/chi-tiet/{id:\d+}', ['App\Controllers\Admin\SanPhamController', 'chiTiet']);
+    $r->addRoute('POST', '/admin/san-pham/xoa/{id:\d+}', ['App\Controllers\Admin\SanPhamController', 'xoa']);
+    
     // {id:\d+} means the 'id' parameter must be a digit
 });
 
@@ -144,4 +160,32 @@ function component(string $name, array $data = []): void
     
     // Include the component file.
     require "../app/Views/components/{$name}.php";
+}
+
+function setupDefaultAdmin(): void
+{
+    try {
+        $em = require __DIR__ . '/../config/doctrine.php';
+        
+        // Kiểm tra xem đã có admin nào chưa
+        $adminCount = $em->getRepository('App\Models\Admin')->createQueryBuilder('a')
+            ->select('COUNT(a.id)')
+            ->getQuery()
+            ->getSingleScalarResult();
+        
+        if ($adminCount == 0) {
+            // Tạo admin mặc định
+            $admin = new App\Models\Admin();
+            $admin->setUsername('admin');
+            $admin->setPassword($_ENV['ADMIN_PASSWORD'] ?? '123456');
+            
+            $em->persist($admin);
+            $em->flush();
+            
+            error_log('Default admin created: username=admin');
+        }
+    } catch (\Exception $e) {
+        // Nếu có lỗi (ví dụ: bảng chưa tồn tại), bỏ qua im lặng
+        error_log('Could not setup default admin: ' . $e->getMessage());
+    }
 }

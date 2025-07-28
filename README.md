@@ -11,6 +11,12 @@
 - **Node.js** (phiên bản 14 trở lên)
 - **npm** (đi kèm với Node.js)
 
+## Liên Kết
+
+- **[Tailwind](https://tailwindcss.com/)**
+- **[BasecoatCss](https://basecoatui.com/introduction/)**
+- **[Mailtrap](https://mailtrap.io/)**
+
 ## Cài đặt
 
 1. **Clone repository** (nếu có) - Lấy code về máy:
