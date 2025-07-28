@@ -1,5 +1,14 @@
 <?php
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 // 1. Include Composer's Autoloader
 require '../vendor/autoload.php';
 
@@ -39,6 +48,10 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('POST', '/admin/san-pham/xoa/{id:\d+}', ['App\Controllers\Admin\SanPhamController', 'xoa']);
     
     // {id:\d+} means the 'id' parameter must be a digit
+    $r->addRoute('GET', '/gio-hang', ['App\Controllers\GioHangController', 'index']);
+    $r->addRoute('POST', '/gio-hang/xoa', ['App\Controllers\GioHangController', 'xoa']);
+    $r->addRoute('POST', '/gio-hang/cap-nhat', ['App\Controllers\GioHangController', 'capNhat']);
+
 });
 
 // 4. Fetch the request method and URI
@@ -81,7 +94,7 @@ switch ($routeInfo[0]) {
 
 function getCartItemCount(): int
 {
-    session_start();
+    // session_start();
     
     try {
         $em = require __DIR__ . '/../config/doctrine.php';
