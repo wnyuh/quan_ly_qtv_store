@@ -55,3 +55,4 @@ Thumbs.db
 # Uploaded files (adjust path as needed)
 /public/uploads/
 /storage/uploads/
+/public/css/style.css
