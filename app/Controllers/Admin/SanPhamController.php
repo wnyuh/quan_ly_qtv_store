@@ -22,30 +22,87 @@ class SanPhamController
         $page = max(1, intval($_GET['page'] ?? 1));
         $limit = 10;
         $offset = ($page - 1) * $limit;
+        
+        // Get search parameters
+        $search = trim($_GET['search'] ?? '');
+        $danhMucId = intval($_GET['danh_muc'] ?? 0);
+        $thuongHieuId = intval($_GET['thuong_hieu'] ?? 0);
+        $trangThai = $_GET['trang_thai'] ?? '';
+        $noiBat = $_GET['noi_bat'] ?? '';
+        $spMoi = $_GET['sp_moi'] ?? '';
 
+        // Build query with search conditions
         $qb = $this->em->createQueryBuilder();
         $qb->select('sp')
            ->from(SanPham::class, 'sp')
-           ->orderBy('sp.ngayTao', 'DESC')
-           ->setFirstResult($offset)
-           ->setMaxResults($limit);
+           ->leftJoin('sp.danhMuc', 'dm')
+           ->leftJoin('sp.thuongHieu', 'th')
+           ->orderBy('sp.ngayTao', 'DESC');
 
-        $sanPhams = $qb->getQuery()->getResult();
+        // Apply search filters
+        if (!empty($search)) {
+            $qb->andWhere('sp.ten LIKE :search OR sp.maSanPham LIKE :search OR sp.moTaNgan LIKE :search')
+               ->setParameter('search', '%' . $search . '%');
+        }
 
-        $totalQb = $this->em->createQueryBuilder();
+        if ($danhMucId > 0) {
+            $qb->andWhere('sp.danhMuc = :danhMucId')
+               ->setParameter('danhMucId', $danhMucId);
+        }
+
+        if ($thuongHieuId > 0) {
+            $qb->andWhere('sp.thuongHieu = :thuongHieuId')
+               ->setParameter('thuongHieuId', $thuongHieuId);
+        }
+
+        if ($trangThai !== '') {
+            $qb->andWhere('sp.kichHoat = :trangThai')
+               ->setParameter('trangThai', $trangThai === '1');
+        }
+
+        if ($noiBat === '1') {
+            $qb->andWhere('sp.noiBat = :noiBat')
+               ->setParameter('noiBat', true);
+        }
+
+        if ($spMoi === '1') {
+            $qb->andWhere('sp.spMoi = :spMoi')
+               ->setParameter('spMoi', true);
+        }
+
+        // Get total count for pagination
+        $totalQb = clone $qb;
         $total = $totalQb->select('COUNT(sp.id)')
-                        ->from(SanPham::class, 'sp')
+                        ->setFirstResult(0)
+                        ->setMaxResults(null)
                         ->getQuery()
                         ->getSingleScalarResult();
 
+        // Apply pagination
+        $qb->setFirstResult($offset)
+           ->setMaxResults($limit);
+
+        $sanPhams = $qb->getQuery()->getResult();
         $totalPages = ceil($total / $limit);
+
+        // Get filter options
+        $danhMucs = $this->em->getRepository(DanhMuc::class)->findBy(['kichHoat' => true], ['ten' => 'ASC']);
+        $thuongHieus = $this->em->getRepository(ThuongHieu::class)->findBy(['kichHoat' => true], ['ten' => 'ASC']);
 
         admin_view('admin/san-pham/danh-sach', [
             'pageTitle' => 'Quản lý Sản phẩm',
             'sanPhams' => $sanPhams,
             'currentPage' => $page,
             'totalPages' => $totalPages,
-            'total' => $total
+            'total' => $total,
+            'search' => $search,
+            'selectedDanhMuc' => $danhMucId,
+            'selectedThuongHieu' => $thuongHieuId,
+            'selectedTrangThai' => $trangThai,
+            'selectedNoiBat' => $noiBat,
+            'selectedSpMoi' => $spMoi,
+            'danhMucs' => $danhMucs,
+            'thuongHieus' => $thuongHieus
         ]);
     }
 
