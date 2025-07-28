@@ -43,6 +43,13 @@ class DonHang
     #[ORM\Column(name: 'tien_giam_gia', type: 'float')]
     private float $tienGiamGia = 0;
 
+    #[ORM\ManyToOne(targetEntity: MaGiamGia::class)]
+    #[ORM\JoinColumn(name: 'ma_giam_gia_id', referencedColumnName: 'id', nullable: true)]
+    private ?MaGiamGia $maGiamGia = null;
+
+    #[ORM\Column(name: 'ma_giam_gia_code', type: 'string', length: 50, nullable: true)]
+    private ?string $maGiamGiaCode = null;
+
     #[ORM\Column(name: 'tong_tien', type: 'float')]
     private float $tongTien;
 
@@ -328,5 +335,63 @@ class DonHang
             }
         }
         return null;
+    }
+
+    public function getMaGiamGia(): ?MaGiamGia
+    {
+        return $this->maGiamGia;
+    }
+
+    public function setMaGiamGia(?MaGiamGia $maGiamGia): self
+    {
+        $this->maGiamGia = $maGiamGia;
+        if ($maGiamGia) {
+            $this->maGiamGiaCode = $maGiamGia->getMaGiamGia();
+        } else {
+            $this->maGiamGiaCode = null;
+        }
+        return $this;
+    }
+
+    public function getMaGiamGiaCode(): ?string
+    {
+        return $this->maGiamGiaCode;
+    }
+
+    public function setMaGiamGiaCode(?string $maGiamGiaCode): self
+    {
+        $this->maGiamGiaCode = $maGiamGiaCode;
+        return $this;
+    }
+
+    public function apDungMaGiamGia(MaGiamGia $maGiamGia): bool
+    {
+        if (!$maGiamGia->coTheSuDung()) {
+            return false;
+        }
+
+        $tienGiam = $maGiamGia->tinhTienGiam($this->tongPhu);
+        if ($tienGiam <= 0) {
+            return false;
+        }
+
+        $this->setMaGiamGia($maGiamGia);
+        $this->setTienGiamGia($tienGiam);
+        $maGiamGia->tangSoLuongSuDung();
+        
+        return true;
+    }
+
+    public function boMaGiamGia(): self
+    {
+        $this->maGiamGia = null;
+        $this->maGiamGiaCode = null;
+        $this->setTienGiamGia(0);
+        return $this;
+    }
+
+    public function coMaGiamGia(): bool
+    {
+        return $this->maGiamGia !== null && $this->tienGiamGia > 0;
     }
 }

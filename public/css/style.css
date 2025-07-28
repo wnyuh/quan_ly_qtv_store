@@ -1044,6 +1044,16 @@
       }
     }
   }
+  .hover\:bg-destructive\/90 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-destructive);
+        @supports (color: color-mix(in lab, red, red)) {
+          background-color: color-mix(in oklab, var(--color-destructive) 90%, transparent);
+        }
+      }
+    }
+  }
   .hover\:bg-muted {
     &:hover {
       @media (hover: hover) {
@@ -1120,6 +1130,11 @@
         --tw-shadow: 0 4px 6px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 2px 4px -2px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
         box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
       }
+    }
+  }
+  .focus\:border-transparent {
+    &:focus {
+      border-color: transparent;
     }
   }
   .focus\:ring-2 {
