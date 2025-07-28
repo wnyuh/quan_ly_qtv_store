@@ -1,5 +1,14 @@
 <?php
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 // 1. Include Composer's Autoloader
 require '../vendor/autoload.php';
 
@@ -37,8 +46,7 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute(['GET', 'POST'], '/admin/san-pham/sua/{id:\d+}', ['App\Controllers\Admin\SanPhamController', 'sua']);
     $r->addRoute('GET', '/admin/san-pham/chi-tiet/{id:\d+}', ['App\Controllers\Admin\SanPhamController', 'chiTiet']);
     $r->addRoute('POST', '/admin/san-pham/xoa/{id:\d+}', ['App\Controllers\Admin\SanPhamController', 'xoa']);
-
-    // Admin category routes
+// Admin category routes
     $r->addRoute('GET',  '/admin/danh-muc',                ['App\Controllers\Admin\DanhMucController', 'danhSach']);
     $r->addRoute(['GET','POST'], '/admin/danh-muc/them',   ['App\Controllers\Admin\DanhMucController', 'them']);
     $r->addRoute(['GET','POST'], '/admin/danh-muc/sua/{id:\d+}',      ['App\Controllers\Admin\DanhMucController', 'sua']);
@@ -53,6 +61,16 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('POST',   '/admin/thuong-hieu/xoa/{id:\d+}',      ['App\Controllers\Admin\ThuongHieuController', 'xoa']);
 
     // {id:\d+} means the 'id' parameter must be a digit
+    // Định tuyến cho các thao tác giỏ hàng
+    $r->addRoute('GET', '/gio-hang', ['App\Controllers\GioHangController', 'index']);
+    $r->addRoute('POST', '/gio-hang/cap-nhat', ['App\Controllers\GioHangController', 'capNhat']);
+    $r->addRoute(['GET', 'POST'], '/gio-hang/xoa', ['App\Controllers\GioHangController', 'xoa']);
+    $r->addRoute('GET', '/gio-hang/checkout', ['App\Controllers\GioHangController', 'checkout']);
+
+    ///
+    $r->addRoute('GET', '/dang-nhap', ['App\Controllers\AuthController', 'dangNhap']);
+    $r->addRoute('POST', '/dang-nhap', ['App\Controllers\AuthController', 'dangNhap']);
+    $r->addRoute('GET', '/dang-xuat', ['App\Controllers\AuthController', 'dangXuat']);
 });
 
 // 4. Fetch the request method and URI
@@ -95,7 +113,7 @@ switch ($routeInfo[0]) {
 
 function getCartItemCount(): int
 {
-    session_start();
+    // session_start();
     
     try {
         $em = require __DIR__ . '/../config/doctrine.php';
