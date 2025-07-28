@@ -54,7 +54,7 @@
                                 <div class="text-xs text-muted-foreground"><?= htmlspecialchars($sanPham->getThuongHieu()->getTen() ?? '') ?></div>
                             </td>
                             <td class="px-6 py-4 text-center">
-                                <input type="number" name="quantities[<?= $index ?>]" value="<?= $qty ?>" min="1"
+                                <input type="number" onchange="this.form.submit()" name="quantities[<?= $index ?>]" value="<?= $qty ?>" min="0"
                                     class="w-16 text-center border rounded-lg py-1 bg-background focus:outline-primary focus:ring-2 focus:ring-primary/40 shadow transition" />
                                 <input type="hidden" name="ids[<?= $index ?>]" value="<?= htmlspecialchars($bienThe->getId()) ?>">
                             </td>

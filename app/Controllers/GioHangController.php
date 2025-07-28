@@ -40,7 +40,9 @@ class GioHangController
             return;
         }
 
-        session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
 
         if (isset($_SESSION['user_id'])) {
             $this->themVaoGioNguoiDung($_SESSION['user_id'], $bienThe, $soLuong);
@@ -212,7 +214,11 @@ class GioHangController
                     foreach ($ids as $i => $id) {
                         $soLuong = (int)($quantities[$i] ?? 1);
                         if (isset($duLieu[$id])) {
-                            $duLieu[$id]['so_luong'] = $soLuong;
+                            if ($soLuong <= 0) {
+                                unset($duLieu[$id]);
+                            } else {
+                                $duLieu[$id]['so_luong'] = $soLuong;
+                            }
                         }
                     }
                     $phienKhach->setDuLieuGioHang($duLieu);
