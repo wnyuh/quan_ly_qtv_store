@@ -30,7 +30,9 @@
                 <div class="text-2xl mr-3">👥</div>
                 <div>
                     <p class="text-sm font-medium text-muted-foreground">Khách hàng</p>
-                    <p class="text-2xl font-bold text-foreground"></p>
+                    <p class="text-2xl font-bold text-foreground">
+                        <?= $nguoi_dung_count ?>
+                    </p>
                 </div>
             </div>
         </div>

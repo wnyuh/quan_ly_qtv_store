@@ -37,7 +37,14 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute(['GET', 'POST'], '/admin/san-pham/sua/{id:\d+}', ['App\Controllers\Admin\SanPhamController', 'sua']);
     $r->addRoute('GET', '/admin/san-pham/chi-tiet/{id:\d+}', ['App\Controllers\Admin\SanPhamController', 'chiTiet']);
     $r->addRoute('POST', '/admin/san-pham/xoa/{id:\d+}', ['App\Controllers\Admin\SanPhamController', 'xoa']);
-    
+
+    // Admin category routes
+    $r->addRoute('GET',  '/admin/danh-muc',                ['App\Controllers\Admin\DanhMucController', 'danhSach']);
+    $r->addRoute(['GET','POST'], '/admin/danh-muc/them',   ['App\Controllers\Admin\DanhMucController', 'them']);
+    $r->addRoute(['GET','POST'], '/admin/danh-muc/sua/{id:\d+}',      ['App\Controllers\Admin\DanhMucController', 'sua']);
+    $r->addRoute('GET',  '/admin/danh-muc/chi-tiet/{id:\d+}', ['App\Controllers\Admin\DanhMucController', 'chiTiet']);
+    $r->addRoute('POST', '/admin/danh-muc/xoa/{id:\d+}',      ['App\Controllers\Admin\DanhMucController', 'xoa']);
+
     // {id:\d+} means the 'id' parameter must be a digit
 });
 
