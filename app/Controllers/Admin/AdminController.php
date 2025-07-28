@@ -74,11 +74,14 @@ class AdminController
 
         $don_hang_count = $don_hang_repository->count([]);
 
+
         admin_view('admin/dashboard', [
             'pageTitle' => 'Admin Dashboard',
             'tong_sp_count' => $tong_sp_count,
+            'don_hang_count' => $don_hang_count,
             'kich_hoat_sp_count' => $kich_hoat_sp_count,
             'noi_bat_sp_count' => $noi_bat_sp_count,
+            'doanh_thu' => $this->getDoanhThu(),
         ]);
     }
 
@@ -89,5 +92,19 @@ class AdminController
             header('Location: /admin/login');
             exit;
         }
+    }
+
+    private function getDoanhThu(): float
+    {
+        $qb = $this->em->createQueryBuilder();
+
+        $qb->select('SUM(d.tongTien)')
+            ->from(DonHang::class, 'd')
+            ->where('d.trangThai = :trangThai') // Add a condition
+            ->setParameter('trangThai', 'da_giao_hang'); // Bind the parameter
+
+        $total = $qb->getQuery()->getSingleScalarResult();
+
+        return (float) $total;
     }
 }
