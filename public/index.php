@@ -29,7 +29,8 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute(['GET', 'POST'], '/admin/login', ['App\Controllers\Admin\AdminController', 'login']);
     $r->addRoute('GET', '/admin/logout', ['App\Controllers\Admin\AdminController', 'logout']);
     $r->addRoute('GET', '/admin/dashboard', ['App\Controllers\Admin\AdminController', 'dashboard']);
-    
+    $r->addRoute('GET', '/admin', ['App\Controllers\Admin\AdminController', 'dashboard']);
+
     // Admin product routes
     $r->addRoute('GET', '/admin/san-pham', ['App\Controllers\Admin\SanPhamController', 'danhSach']);
     $r->addRoute(['GET', 'POST'], '/admin/san-pham/them', ['App\Controllers\Admin\SanPhamController', 'them']);
