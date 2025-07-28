@@ -5,6 +5,7 @@ namespace App\Controllers\Admin;
 use App\Models\SanPham;
 use App\Models\BienTheSanPham;
 use App\Models\DanhMuc;
+use App\Models\ThongSoSanPham;
 use App\Models\ThuongHieu;
 
 class SanPhamController
@@ -58,11 +59,16 @@ class SanPhamController
 
         $danhMucs = $this->em->getRepository(DanhMuc::class)->findBy(['kichHoat' => true], ['ten' => 'ASC']);
         $thuongHieus = $this->em->getRepository(ThuongHieu::class)->findBy(['kichHoat' => true], ['ten' => 'ASC']);
+        $sanPham = new SanPham();
+        $thongSo = new ThongSoSanPham();
+        $thongSo->setSanPham($sanPham);
+        $sanPham->setThongSo($thongSo);
 
         admin_view('admin/san-pham/them', [
             'pageTitle' => 'Thêm Sản phẩm',
             'danhMucs' => $danhMucs,
-            'thuongHieus' => $thuongHieus
+            'thuongHieus' => $thuongHieus,
+            'sanPham' => $sanPham
         ]);
     }
 
@@ -131,6 +137,11 @@ class SanPhamController
         try {
             $sanPham = new SanPham();
             $this->fillSanPhamData($sanPham);
+            // tạo mới thông số sản phẩm
+            $ts = new ThongSoSanPham();
+            $this->fillThongSoData($ts);
+            $ts->setSanPham($sanPham);
+            $sanPham->setThongSo($ts);
             
             $this->em->persist($sanPham);
             $this->em->flush();
@@ -152,6 +163,12 @@ class SanPhamController
     private function handleSua($sanPham)
     {
         try {
+            // lấy hoặc tạo mới ThongSo nếu chưa có
+            $ts = $sanPham->getThongSo()
+                ?: (new ThongSoSanPham())->setSanPham($sanPham);
+            $this->fillThongSoData($ts);
+            $sanPham->setThongSo($ts);
+
             $this->fillSanPhamData($sanPham);
             $sanPham->setNgayCapNhat();
             
@@ -199,6 +216,42 @@ class SanPhamController
                 $sanPham->setThuongHieu($thuongHieu);
             }
         }
+    }
+
+    private function fillThongSoData(ThongSoSanPham $ts)
+    {
+        $data = $_POST['thong_so'] ?? [];
+        $ts->setKichThuocManHinh($data['kich_thuoc_man_hinh'] ?? null)
+            ->setDoPhanGiai($data['do_phan_giai'] ?? null)
+            ->setLoaiManHinh($data['loai_man_hinh'] ?? null)
+            ->setHeDieuHanh($data['he_dieu_hanh'] ?? null)
+            ->setBoXuLy($data['bo_xu_ly'] ?? null)
+            ->setRam($data['ram'] ?? null)
+            ->setBoNho($data['bo_nho'] ?? null)
+            ->setMoRongBoNho(isset($data['mo_rong_bo_nho']))
+            ->setCameraSau($data['camera_sau'] ?? null)
+            ->setCameraTruoc($data['camera_truoc'] ?? null)
+            ->setDungLuongPin($data['dung_luong_pin'] ?? null)
+            ->setLoaiSac($data['loai_sac'] ?? null)
+//            ->setKetNoi($data['ket_noi'] ?? null)          // array
+//            ->setMauSacCoSan($data['mau_sac_co_san'] ?? null) // array
+            ->setThoiGianBaoHanh($data['thoi_gian_bao_hanh'] ?? null)
+            ->setChongNuoc($data['chong_nuoc'] ?? null)
+            ->setCamBienVanTay(isset($data['cam_bien_van_tay']))
+            ->setMoKhoaKhuonMat(isset($data['mo_khoa_khuon_mat']));
+
+        // Chuyển chuỗi “wifi, bluetooth” thành mảng ['wifi','bluetooth']
+        $ketNoiArr = [];
+        if (!empty($data['ket_noi'])) {
+            $ketNoiArr = array_filter(array_map('trim', explode(',', $data['ket_noi'])));
+        }
+        $ts->setKetNoi($ketNoiArr);
+
+        $mauSacArr = null;
+        if (!empty($data['mau_sac_co_san'])) {
+            $mauSacArr = array_filter(array_map('trim', explode(',', $data['mau_sac_co_san'])));
+        }
+        $ts->setMauSacCoSan($mauSacArr);
     }
 
     private function requireAuth()
