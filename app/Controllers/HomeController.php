@@ -22,7 +22,8 @@ class HomeController
         // Lấy sản phẩm mới nhất
         $sanPhamMoi = $em->getRepository(SanPham::class)
             ->findBy([
-                'kichHoat' => true
+                'kichHoat' => true,
+                'spMoi' => true
             ], ['ngayTao' => 'DESC'], 4);
         
         // Lấy danh mục sản phẩm
