@@ -83,15 +83,6 @@
             </table>
         </div>
         <div class="flex flex-col sm:flex-row justify-end gap-4 mt-8 w-full">
-            <button type="submit"
-                class="rounded-2xl px-8 py-3 text-base font-bold bg-yellow-400 text-black shadow hover:bg-yellow-500 transition flex items-center gap-2 sm:w-auto w-full border-0 outline-none">
-                <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" class="inline"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <rect x="3" y="6" width="18" height="12" rx="2" />
-                    <path d="M16 10l-4 4-4-4" />
-                </svg>
-                Cập nhật giỏ hàng
-            </button>
             <a href="/gio-hang/checkout"
                 class="rounded-2xl px-8 py-3 text-base font-bold bg-gradient-to-r from-emerald-400 to-green-600 text-white shadow hover:brightness-110 transition flex items-center gap-2 sm:w-auto w-full border-0 outline-none">
                 <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" class="inline"
