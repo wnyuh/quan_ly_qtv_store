@@ -1,0 +1,57 @@
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Composer
+/vendor/*
+!/vendor/autoload.php
+composer.phar
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Database
+database/store.sqlite
+*.db
+*.sqlite
+
+# Logs
+/logs/
+*.log
+
+# Cache
+/cache/
+/tmp/
+/temp/
+
+# Node.js (if using frontend build tools)
+/node_modules/
+npm-debug.log
+yarn-error.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# PHP specific
+*.tmp
+*.temp
+*.backup
+.phpunit.result.cache
+
+# Session files
+/sessions/
+/storage/sessions/
+
+# Uploaded files (adjust path as needed)
+/public/uploads/
+/storage/uploads/
