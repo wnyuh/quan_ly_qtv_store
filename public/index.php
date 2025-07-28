@@ -19,6 +19,7 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     // Define your routes
     $r->addRoute('GET', '/', ['App\Controllers\HomeController', 'index']);
     $r->addRoute('GET', '/tim-kiem-san-pham', ['App\Controllers\SanPhamController', 'timKiem']);
+    $r->addRoute('GET', '/san-pham/{duongDan}', ['App\Controllers\SanPhamController', 'chiTiet']);
     $r->addRoute('POST', '/cart/add', ['App\Controllers\GioHangController', 'themVaoGio']);
     // {id:\d+} means the 'id' parameter must be a digit
 });
@@ -61,8 +62,45 @@ switch ($routeInfo[0]) {
 }
 
 
+function getCartItemCount(): int
+{
+    session_start();
+    
+    try {
+        $em = require __DIR__ . '/../config/doctrine.php';
+        
+        if (isset($_SESSION['user_id'])) {
+            // Logged in user - get from database
+            $qb = $em->createQueryBuilder();
+            $qb->select('sum(gh.soLuong)')
+                ->from('App\Models\GioHang', 'gh')
+                ->where('gh.nguoiDung = :userId')
+                ->setParameter('userId', $_SESSION['user_id']);
+            
+            return (int) $qb->getQuery()->getSingleScalarResult();
+        } else {
+            // Guest user - get from session
+            $maPhien = $_SESSION['ma_phien'] ?? null;
+            if ($maPhien) {
+                $phienKhach = $em->getRepository('App\Models\PhienKhach')->findOneBy(['maPhien' => $maPhien]);
+                if ($phienKhach && !$phienKhach->isExpired()) {
+                    return $phienKhach->getCartItemCount();
+                }
+            }
+        }
+    } catch (\Exception $e) {
+        // Nếu có lỗi, trả về 0
+        return 0;
+    }
+    
+    return 0;
+}
+
 function view(string $path, array $data = []): void
 {
+    // Thêm cart count vào data để layout có thể sử dụng
+    $data['cartItemCount'] = getCartItemCount();
+    
     // Make variables available to both the view and the layout.
     extract($data);
 

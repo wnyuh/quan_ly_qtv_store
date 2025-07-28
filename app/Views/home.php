@@ -3,9 +3,9 @@
     <div class="text-center">
         <h1 class="text-4xl font-bold text-foreground mb-4">Cửa Hàng Điện Thoại Hàng Đầu</h1>
         <p class="text-lg text-muted-foreground mb-6">Khám phá các mẫu iPhone mới nhất với giá tốt nhất</p>
-        <button class="px-8 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium">
+        <a href="/tim-kiem-san-pham" class="px-8 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium">
             Xem Sản Phẩm
-        </button>
+        </a>
     </div>
 </section>
 

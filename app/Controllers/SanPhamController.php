@@ -108,4 +108,33 @@ class SanPhamController
 
         view('san-pham/tim-kiem', $data);
     }
+
+    public function chiTiet($duongDan)
+    {
+        $em = require __DIR__ . '/../../config/doctrine.php';
+
+        $sanPham = $em->getRepository(SanPham::class)
+                     ->findOneBy(['duongDan' => $duongDan, 'kichHoat' => true]);
+
+        if (!$sanPham) {
+            http_response_code(404);
+            view('errors/404');
+            return;
+        }
+
+        $bienTheMacDinh = $sanPham->getBienThes()->filter(function($bienThe) {
+            return $bienThe->isKichHoat() && !$bienThe->isHetHang();
+        })->first();
+
+        $data = [
+            'pageTitle' => $sanPham->getTen() . ' - Chi Tiết Sản Phẩm',
+            'sanPham' => $sanPham,
+            'bienTheList' => $sanPham->getBienThes()->filter(function($bienThe) {
+                return $bienThe->isKichHoat() && !$bienThe->isHetHang();
+            }),
+            'bienTheSelected' => $bienTheMacDinh
+        ];
+
+        view('san-pham/chi-tiet', $data);
+    }
 }

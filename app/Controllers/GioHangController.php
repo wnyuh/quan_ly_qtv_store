@@ -71,7 +71,6 @@ class GioHangController
 
             $this->em->flush();
 
-            // **NEW**: Calculate total items for the user
             $totalItems = $this->getCartItemCountForUser($nguoiDungId);
 
             echo json_encode([
