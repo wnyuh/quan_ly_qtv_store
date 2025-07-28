@@ -19,6 +19,7 @@
                 <div>
                     <p class="text-sm font-medium text-muted-foreground">Đơn hàng</p>
                     <p class="text-2xl font-bold text-foreground">--</p>
+                    <?= $don_hang_count ?>
                 </div>
             </div>
         </div>
