@@ -3,6 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\Models\Admin;
+use App\Models\DonHang;
 use App\Models\SanPham;
 
 class AdminController
@@ -59,7 +60,7 @@ class AdminController
     public function dashboard()
     {
         $this->requireAuth();
-
+        // Lấy dữ  liệu của bảng sản phẩm
         $san_pham_repository = $this->em->getRepository(SanPham::class);
 
         $tong_sp_count = $san_pham_repository->count([]);
@@ -67,6 +68,11 @@ class AdminController
         $kich_hoat_sp_count = $san_pham_repository->count(['kichHoat' => true]);
 
         $noi_bat_sp_count = $san_pham_repository->count(['noiBat' => true, 'kichHoat' => true]);
+
+        // Lấy dữ  liệu của bảng đơn hàng
+        $don_hang_repository = $this->em->getRepository(DonHang::class);
+
+        $don_hang_count = $don_hang_repository->count([]);
 
         admin_view('admin/dashboard', [
             'pageTitle' => 'Admin Dashboard',
