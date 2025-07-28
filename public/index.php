@@ -45,6 +45,13 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('GET',  '/admin/danh-muc/chi-tiet/{id:\d+}', ['App\Controllers\Admin\DanhMucController', 'chiTiet']);
     $r->addRoute('POST', '/admin/danh-muc/xoa/{id:\d+}',      ['App\Controllers\Admin\DanhMucController', 'xoa']);
 
+    // Admin brand routes
+    $r->addRoute('GET',    '/admin/thuong-hieu',                  ['App\Controllers\Admin\ThuongHieuController', 'danhSach']);
+    $r->addRoute(['GET','POST'], '/admin/thuong-hieu/them',       ['App\Controllers\Admin\ThuongHieuController', 'them']);
+    $r->addRoute(['GET','POST'], '/admin/thuong-hieu/sua/{id:\d+}',   ['App\Controllers\Admin\ThuongHieuController', 'sua']);
+    $r->addRoute('GET',    '/admin/thuong-hieu/chi-tiet/{id:\d+}', ['App\Controllers\Admin\ThuongHieuController', 'chiTiet']);
+    $r->addRoute('POST',   '/admin/thuong-hieu/xoa/{id:\d+}',      ['App\Controllers\Admin\ThuongHieuController', 'xoa']);
+
     // {id:\d+} means the 'id' parameter must be a digit
 });
 
