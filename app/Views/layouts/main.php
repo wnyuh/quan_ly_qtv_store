@@ -65,8 +65,9 @@
             <!-- Logo/Brand -->
             <div class="flex items-center space-x-3">
                 <div class="text-2xl">📱</div>
+                <img src="/public/images/logo.svg" >
                 <div>
-                    <h1 class="text-xl font-bold text-foreground">Store Phone</h1>
+                    <h1 class="text-xl font-bold text-foreground">QTV Strore</h1>
                     <p class="text-xs text-muted-foreground">Cửa hàng điện thoại uy tín</p>
                 </div>
             </div>
