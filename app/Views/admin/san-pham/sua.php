@@ -187,6 +187,15 @@
                                     <div class="text-sm text-muted-foreground">Hiển thị trong danh sách sản phẩm nổi bật</div>
                                 </div>
                             </label>
+
+                            <label class="flex items-center space-x-3">
+                                <input type="checkbox" name="sp_moi" value="1"
+                                    <?= (isset($_POST['sp_moi']) ? $_POST['sp_moi'] : $sanPham->isSpMoi()) ? 'checked' : '' ?>>
+                                <div>
+                                    <div class="font-medium text-foreground">Sản phẩm mới</div>
+                                    <div class="text-sm text-muted-foreground">Hiển thị trong danh sách sản phẩm mới</div>
+                                </div>
+                            </label>
                         </div>
                     </section>
                 </div>

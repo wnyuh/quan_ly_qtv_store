@@ -59,6 +59,9 @@ class SanPham
     #[ORM\Column(name: 'noi_bat', type: 'boolean')]
     private bool $noiBat = false;
 
+    #[ORM\Column(name: 'sp_moi', type: 'boolean')]
+    private bool $spMoi = false;
+
     #[ORM\Column(name: 'tieu_de_meta', type: 'string', length: 255, nullable: true)]
     private ?string $tieuDeMeta = null;
 
@@ -249,6 +252,17 @@ class SanPham
     public function setNoiBat(bool $noiBat): self
     {
         $this->noiBat = $noiBat;
+        return $this;
+    }
+
+    public function isSpMoi(): bool
+    {
+        return $this->spMoi;
+    }
+
+    public function setSpMoi(bool $spMoi): self
+    {
+        $this->spMoi = $spMoi;
         return $this;
     }
 

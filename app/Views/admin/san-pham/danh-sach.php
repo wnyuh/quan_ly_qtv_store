@@ -96,8 +96,13 @@
                                             </span>
                                         <?php endif; ?>
                                         <?php if ($sanPham->isNoiBat()): ?>
-                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 ml-1">
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                                                 Nổi bật
+                                            </span>
+                                        <?php endif; ?>
+                                        <?php if ($sanPham->isSpMoi()): ?>
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                                Sản phẩm mới
                                             </span>
                                         <?php endif; ?>
                                     </td>
