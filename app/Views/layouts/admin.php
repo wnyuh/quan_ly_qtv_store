@@ -112,6 +112,21 @@
                         </li>
 
                         <li>
+                            <a href="/admin/bao-cao/doanh-thu">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 3v18h18"/>
+                                    <path d="M6 17v-4"/>
+                                    <path d="M11 17v-8"/>
+                                    <path d="M16 17v-12"/>
+                                    <path d="M21 17v-6"/>
+                                </svg>
+                                <span>Báo cáo doanh thu</span>
+                            </a>
+                        </li>
+
+                        <li>
                             <details id="submenu-settings">
                                 <summary aria-controls="submenu-settings-content">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

@@ -138,7 +138,9 @@ class ChiTietDonHang
 
     private function calculateTongGia(): void
     {
-        $this->tongGia = $this->giaDonVi * $this->soLuong;
+        if (isset($this->soLuong) && isset($this->giaDonVi)) {
+            $this->tongGia = $this->giaDonVi * $this->soLuong;
+        }
     }
 
     public function getNgayTao(): \DateTime
