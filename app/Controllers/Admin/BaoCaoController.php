@@ -10,49 +10,65 @@ class BaoCaoController
 
     public function __construct()
     {
-        // Lấy Doctrine EntityManager, rồi lấy DBAL Connection từ nó
         $em = require __DIR__ . '/../../../config/doctrine.php';
         $this->conn = $em->getConnection();
-        // nếu cần auth admin
         $this->requireAuth();
     }
 
     public function doanhThu()
     {
-        $from = $_GET['from'] ?? date('Y-m-01');
-        $to   = $_GET['to']   ?? date('Y-m-d');
+        $tuNgay  = $_GET['from'] ?? date('Y-m-01');
+        $denNgay = $_GET['to']   ?? date('Y-m-d');
+        $donVi   = $_GET['unit'] ?? 'month';  // mặc định tháng
 
-        // SQL thuần
+        switch ($donVi) {
+            case 'year':
+                $chuoiDinhDang = '%Y';       // chỉ năm
+                break;
+            case 'week':
+                $chuoiDinhDang = '%x-W%v';   // tuần
+                break;
+            case 'day':
+                $chuoiDinhDang = '%Y-%m-%d'; // ngày
+                break;
+            case 'month':
+            default:
+                $chuoiDinhDang = '%Y-%m';    // tháng
+                break;
+        }
+
+        // 3) Dùng chung biểu thức cho SELECT, GROUP BY, ORDER BY
+        $expr = "DATE_FORMAT(ngay_tao, '$chuoiDinhDang')";
+
         $sql = <<<SQL
 SELECT
-    DATE(ngay_tao) AS ngay,
+    $expr AS donVi,
     SUM(tong_tien) AS doanhThu
 FROM don_hang
 WHERE trang_thai = :tt
   AND ngay_tao BETWEEN :from AND :to
-GROUP BY DATE(ngay_tao)
-ORDER BY DATE(ngay_tao) ASC
+GROUP BY $expr
+ORDER BY $expr ASC
 SQL;
 
-        // Thực thi và tự bind tham số
         $rows = $this->conn->fetchAllAssociative($sql, [
             'tt'   => 'hoan_thanh',
-            'from' => "{$from} 00:00:00",
-            'to'   => "{$to} 23:59:59",
+            'from' => "{$tuNgay} 00:00:00",
+            'to'   => "{$denNgay} 23:59:59",
         ]);
 
-        // Tính tổng cả giai đoạn
-        $totalAll = array_sum(array_column($rows, 'doanhThu'));
+        $tongTatCa = array_sum(array_column($rows, 'doanhThu'));
 
-        // Render view
         admin_view('admin/bao-cao/doanh-thu', [
             'pageTitle' => 'Báo cáo Doanh thu',
             'rows'      => $rows,
-            'totalAll'  => $totalAll,
-            'from'      => $from,
-            'to'        => $to,
+            'totalAll'  => $tongTatCa,
+            'from'      => $tuNgay,
+            'to'        => $denNgay,
+            'unit'      => $donVi,
         ]);
     }
+
 
     private function requireAuth()
     {
