@@ -81,11 +81,23 @@ class NguoiDung
         return $this->matKhau;
     }
 
+    // public function setMatKhau(string $matKhau): self
+    // {
+    //     $this->matKhau = password_hash($matKhau, PASSWORD_DEFAULT);
+    //     return $this;
+    // }
+
     public function setMatKhau(string $matKhau): self
     {
-        $this->matKhau = password_hash($matKhau, PASSWORD_DEFAULT);
+        // Nếu string không phải hash, thì hash
+        if (password_get_info($matKhau)['algo'] === 0) {
+            $this->matKhau = password_hash($matKhau, PASSWORD_DEFAULT);
+        } else {
+            $this->matKhau = $matKhau; // Đã là hash rồi
+        }
         return $this;
     }
+
 
     public function getHo(): string
     {
@@ -177,4 +189,6 @@ class NguoiDung
     {
         return $this->donHangs;
     }
+
+    
 }
