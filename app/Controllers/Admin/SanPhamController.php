@@ -5,6 +5,7 @@ namespace App\Controllers\Admin;
 use App\Models\SanPham;
 use App\Models\BienTheSanPham;
 use App\Models\DanhMuc;
+use App\Models\HinhAnhSanPham;
 use App\Models\ThongSoSanPham;
 use App\Models\ThuongHieu;
 
@@ -273,7 +274,134 @@ class SanPhamController
                 $sanPham->setThuongHieu($thuongHieu);
             }
         }
+
+        // Xử lý biến thể sản phẩm
+        $this->xuLyBienTheSanPham($sanPham);
     }
+
+    /**
+     * Xử lý thêm/cập nhật biến thể sản phẩm
+     */
+    private function xuLyBienTheSanPham($sanPham)
+    {
+        if (!isset($_POST['bien_thes']) || !is_array($_POST['bien_thes'])) {
+            return;
+        }
+
+        foreach ($_POST['bien_thes'] as $bienTheData) {
+            if (empty($bienTheData['ma_san_pham'])) {
+                continue;
+            }
+
+            $bienThe = null;
+            
+            // Nếu có ID, tìm biến thể để cập nhật
+            if (!empty($bienTheData['id'])) {
+                $bienThe = $this->em->getRepository(BienTheSanPham::class)->find($bienTheData['id']);
+                if ($bienThe && $bienThe->getSanPham()->getId() !== $sanPham->getId()) {
+                    continue; // Không cho phép cập nhật biến thể của sản phẩm khác
+                }
+            }
+
+            // Tạo biến thể mới nếu không tìm thấy
+            if (!$bienThe) {
+                $bienThe = new BienTheSanPham();
+                $bienThe->setSanPham($sanPham);
+            }
+
+            // Cập nhật thông tin biến thể
+            $bienThe->setMaSanPham($bienTheData['ma_san_pham']);
+            $bienThe->setMauSac($bienTheData['mau_sac'] ?? null);
+            $bienThe->setBoNho($bienTheData['bo_nho'] ?? null);
+            $bienThe->setGia(floatval($bienTheData['gia'] ?? 0));
+            $bienThe->setGiaSoSanh(floatval($bienTheData['gia_so_sanh'] ?? 0));
+            $bienThe->setSoLuongTon(intval($bienTheData['so_luong_ton'] ?? 0));
+            $bienThe->setNguongTonThap(intval($bienTheData['nguong_ton_thap'] ?? 5));
+            $bienThe->setTrongLuong(floatval($bienTheData['trong_luong'] ?? 0));
+            $bienThe->setKichHoat(isset($bienTheData['kich_hoat']));
+
+            $this->em->persist($bienThe);
+            
+            // Xử lý hình ảnh mới cho biến thể
+            $this->xuLyHinhAnhBienThe($bienThe, $bienTheData, $sanPham);
+        }
+
+        // Xử lý xóa biến thể
+        if (isset($_POST['xoa_bien_thes']) && is_array($_POST['xoa_bien_thes'])) {
+            foreach ($_POST['xoa_bien_thes'] as $bienTheId) {
+                $bienThe = $this->em->getRepository(BienTheSanPham::class)->find($bienTheId);
+                if ($bienThe && $bienThe->getSanPham()->getId() === $sanPham->getId()) {
+                    // Với cascade=['persist', 'remove'], Doctrine sẽ tự động xóa các bản ghi liên quan
+                    $this->em->remove($bienThe);
+                }
+            }
+        }
+        
+        // Xử lý xóa hình ảnh
+        if (isset($_POST['xoa_hinh_anhs']) && is_array($_POST['xoa_hinh_anhs'])) {
+            foreach ($_POST['xoa_hinh_anhs'] as $hinhAnhId) {
+                $hinhAnh = $this->em->getRepository(HinhAnhSanPham::class)->find($hinhAnhId);
+                if ($hinhAnh && $hinhAnh->getBienThe() && 
+                    $hinhAnh->getBienThe()->getSanPham()->getId() === $sanPham->getId()) {
+                    $this->em->remove($hinhAnh);
+                }
+            }
+        }
+    }
+
+    /**
+     * Xử lý hình ảnh cho biến thể sản phẩm
+     */
+    private function xuLyHinhAnhBienThe($bienThe, $bienTheData, $sanPham)
+    {
+        if (!isset($bienTheData['hinh_anhs_moi']) || !is_array($bienTheData['hinh_anhs_moi'])) {
+            return;
+        }
+
+        foreach ($bienTheData['hinh_anhs_moi'] as $hinhAnhData) {
+            if (empty($hinhAnhData['url'])) {
+                continue;
+            }
+
+            $imageUrl = trim($hinhAnhData['url']);
+            
+            // Validate URL
+            if (!$this->isValidImageUrl($imageUrl)) {
+                continue;
+            }
+            
+            // Tạo record trong database
+            $hinhAnh = new HinhAnhSanPham();
+            $hinhAnh->setSanPham($sanPham);
+            $hinhAnh->setBienThe($bienThe);
+            $hinhAnh->setDuongDanHinh($imageUrl);
+            $hinhAnh->setTextThayThe('Hình ảnh biến thể ' . $bienThe->getTenDayDu());
+            $hinhAnh->setThuTu(0);
+            
+            $this->em->persist($hinhAnh);
+        }
+    }
+
+    /**
+     * Kiểm tra URL hình ảnh có hợp lệ không
+     */
+    private function isValidImageUrl($url)
+    {
+        // Kiểm tra URL có hợp lệ không
+        if (!filter_var($url, FILTER_VALIDATE_URL)) {
+            return false;
+        }
+        
+        // Kiểm tra extension hoặc domain phổ biến
+        return preg_match('/\.(jpg|jpeg|png|gif|webp|svg)(\?.*)?$/i', $url) ||
+               strpos($url, 'data:image/') === 0 ||
+               strpos($url, 'imgur.com') !== false ||
+               strpos($url, 'cloudinary.com') !== false ||
+               strpos($url, 'unsplash.com') !== false ||
+               strpos($url, 'pexels.com') !== false ||
+               strpos($url, 'pixabay.com') !== false;
+    }
+
 
     private function fillThongSoData(ThongSoSanPham $ts)
     {
