@@ -32,6 +32,15 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('GET', '/tim-kiem-san-pham', ['App\Controllers\SanPhamController', 'timKiem']);
     $r->addRoute('GET', '/san-pham/{duongDan}', ['App\Controllers\SanPhamController', 'chiTiet']);
     $r->addRoute('POST', '/cart/add', ['App\Controllers\GioHangController', 'themVaoGio']);
+
+    $r->addRoute('GET', '/huong-dan-mua-hang', ['App\Controllers\HuongDanController', 'huongDanMuaHang']);
+    $r->addRoute('GET', '/bao-hanh', ['App\Controllers\ChinhSachController', 'baoHanh']);
+    $r->addRoute('GET', '/doi-tra', ['App\Controllers\DoiTraController', 'doiTraSanPham']);
+    $r->addRoute('GET', '/hinh-thuc-thanh-toan', ['App\Controllers\ThanhToanController', 'hinhThucThanhToan']);
+
+
+
+
     
     // Admin routes
     $r->addRoute(['GET', 'POST'], '/admin/login', ['App\Controllers\Admin\AdminController', 'login']);
