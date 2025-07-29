@@ -1,9 +1,9 @@
 <!-- Hero Section -->
-<section class="bg-gradient-to-r from-primary/10 to-primary/5 rounded-xl p-8 mb-8">
+<section class="bg-gradient-to-r from-primary/10 to-primary/5 rounded-xl p-6 mb-6">
     <div class="text-center">
-        <h1 class="text-4xl font-bold text-foreground mb-4">Cửa Hàng Điện Thoại Hàng Đầu</h1>
-        <p class="text-lg text-muted-foreground mb-6">Khám phá các mẫu iPhone mới nhất với giá tốt nhất</p>
-        <a href="/tim-kiem-san-pham" class="px-8 py-3 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium">
+        <h1 class="text-xl font-bold text-foreground mb-2 md:mb-8">Cửa Hàng Điện Thoại Hàng Đầu</h1>
+        <p class="text-lg text-muted-foreground mb-6 hidden md:block ">Khám phá các mẫu iPhone mới nhất với giá tốt nhất</p>
+        <a href="/tim-kiem-san-pham" class="px-8 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium">
             Xem Sản Phẩm
         </a>
     </div>
@@ -11,7 +11,7 @@
 
 <!-- Categories Section -->
 <?php if (!empty($danhMucs)): ?>
-<section class="mb-12">
+<section class="mb-8">
     <h2 class="text-2xl font-bold text-foreground mb-6">Danh Mục Sản Phẩm</h2>
     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
         <?php foreach ($danhMucs as $danhMuc): ?>
