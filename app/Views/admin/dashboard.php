@@ -37,7 +37,7 @@
             </div>
         </div>
 
-        <div class="card p-4 bg-black text-white rounded-lg shadow">
+        <div class="card ">
             <div class="flex items-center">
                 <div class="text-2xl mr-3">💰</div>
                 <div>

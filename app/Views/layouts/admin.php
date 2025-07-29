@@ -127,6 +127,20 @@
                         </li>
 
                         <li>
+                            <a href="/admin/ma-giam-gia">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                     viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                     stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <!-- Đây là icon tag/discount -->
+                                    <path d="M21.41 11.58l-9-9a2 2 0 0 0-2.83 0L2 10.17a2 2 0 0 0 0 2.83l9 9a2 2 0 0 0 2.83 0l7.58-7.58a2 2 0 0 0 0-2.83z"/>
+                                    <circle cx="6.5" cy="6.5" r="1.5"/>
+                                </svg>
+                                <span>Mã giảm giá</span>
+                            </a>
+                        </li>
+
+
+                        <li>
                             <details id="submenu-settings">
                                 <summary aria-controls="submenu-settings-content">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
