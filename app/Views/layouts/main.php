@@ -63,14 +63,15 @@
     <div class="container mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
             <!-- Logo/Brand -->
+            <a href="/">
             <div class="flex items-center space-x-3">
-                <div class="text-2xl">📱</div>
-                <img src="/public/images/logo.svg" >
+                <div class="text-2xl md:text-4xl">📱</div>
                 <div>
-                    <h1 class="text-xl font-bold text-foreground">QTV Strore</h1>
-                    <p class="text-xs text-muted-foreground">Cửa hàng điện thoại uy tín</p>
+                    <h1 class="text-base font-bold text-yellow-300 md:text-2xl ">QTV Store</h1>
+                    <p class="text-xs text-yellow-100 hidden md:block  ">Cửa hàng điện thoại uy tín</p>
                 </div>
             </div>
+            </a>
 
             <!-- Main Navigation -->
             <nav class="hidden md:flex items-center space-x-8">
@@ -81,7 +82,7 @@
             </nav>
 
             <!-- Right Side Actions -->
-            <div class="flex items-center space-x-4">
+            <div class="flex items-center space-x-2 md:space-x-4">
                 <!-- Search Button -->
                 <a href="/tim-kiem-san-pham" class="p-2 text-muted-foreground hover:text-foreground transition-colors">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
@@ -106,7 +107,6 @@
                 <button
                         type="button"
                         aria-label="Toggle dark mode"
-                        data-tooltip="Toggle dark mode"
                         data-side="bottom"
                         onclick="document.dispatchEvent(new CustomEvent('basecoat:theme'))"
                         class="p-2 text-muted-foreground hover:text-foreground transition-colors"
@@ -128,14 +128,14 @@
     <?php echo $content; ?>
 </main>
 
-<footer class="border-t bg-card mt-auto">
-    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<footer class="border-t bg-card mt-auto ">
+    <div class="container mx-auto px-2 sm:px-6 lg:px-8 py-8">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
             <!-- Company Info -->
             <div class="space-y-4">
                 <div class="flex items-center space-x-2">
                     <div class="text-xl">📱</div>
-                    <h3 class="font-bold text-foreground">Store Phone</h3>
+                    <h3 class="font-bold text-foreground">QTV Store</h3>
                 </div>
                 <p class="text-sm text-muted-foreground">Cửa hàng điện thoại uy tín, chất lượng cao với giá cả phải chăng.</p>
                 <div class="flex space-x-3">
