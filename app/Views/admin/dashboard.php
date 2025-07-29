@@ -36,14 +36,14 @@
                 </div>
             </div>
         </div>
-        
-        <div class="card p-4">
+
+        <div class="card p-4 bg-black text-white rounded-lg shadow">
             <div class="flex items-center">
                 <div class="text-2xl mr-3">💰</div>
                 <div>
-                    <p class="text-sm font-medium text-muted-foreground">Doanh thu</p>
-                    <p class="text-2xl font-bold text-foreground">
-                        <?= $doanh_thu ?>
+                    <p class="text-sm font-medium opacity-75 ">Doanh thu năm <?= date('Y') ?></p>
+                    <p class="text-2xl font-bold">
+                        <?= number_format($doanh_thu, 0, ',', '.') ?> ₫
                     </p>
                 </div>
             </div>

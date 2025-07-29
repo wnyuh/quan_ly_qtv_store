@@ -33,7 +33,7 @@ class AdminController
             if ($admin && $admin->verifyPassword($password)) {
                 $_SESSION['admin_id'] = $admin->getId();
                 $_SESSION['admin_username'] = $admin->getUsername();
-                
+
                 header('Location: /admin/dashboard');
                 exit;
             } else {
@@ -51,7 +51,7 @@ class AdminController
         unset($_SESSION['admin_id']);
         unset($_SESSION['admin_username']);
         session_destroy();
-        
+
         header('Location: /admin/login');
         exit;
     }
@@ -72,10 +72,32 @@ class AdminController
         $don_hang_repository = $this->em->getRepository(DonHang::class);
 
         $don_hang_count = $don_hang_repository->count([]);
+
         // Lấy dữ  liệu của khách hàng
         $nguoi_dung_repository = $this->em->getRepository(NguoiDung::class);
 
         $nguoi_dung_count = $nguoi_dung_repository->count([]);
+
+
+        $conn = $this->em->getConnection();
+
+        $namHienTai = date('Y');
+
+        // Truy vấn tổng doanh thu của các đơn hoàn thành trong năm hiện tại
+        $sql = "
+        SELECT SUM(tong_tien) AS doanhThu
+        FROM don_hang
+        WHERE trang_thai = :tt
+          AND YEAR(ngay_tao) = :nam
+    ";
+        $row = $conn->fetchAssociative($sql, [
+            'tt'  => 'hoan_thanh',
+            'nam' => $namHienTai,
+        ]);
+        // Nếu null thì coi như 0
+        $doanh_thu = $row['doanhThu'] !== null
+            ? (float)$row['doanhThu']
+            : 0.0;
 
 
         admin_view('admin/dashboard', [
@@ -84,7 +106,7 @@ class AdminController
             'don_hang_count' => $don_hang_count,
             'kich_hoat_sp_count' => $kich_hoat_sp_count,
             'noi_bat_sp_count' => $noi_bat_sp_count,
-            'doanh_thu' => $this->getDoanhThu(),
+            'doanh_thu'       => $doanh_thu,
             'nguoi_dung_count' => $nguoi_dung_count,
         ]);
     }
@@ -97,17 +119,18 @@ class AdminController
         }
     }
 
-    private function getDoanhThu(): float
-    {
-        $qb = $this->em->createQueryBuilder();
 
-        $qb->select('SUM(d.tongTien)')
-            ->from(DonHang::class, 'd')
-            ->where('d.trangThai = :trangThai') // Add a condition
-            ->setParameter('trangThai', 'da_giao_hang'); // Bind the parameter
-
-        $total = $qb->getQuery()->getSingleScalarResult();
-
-        return (float) $total;
-    }
+//    private function getDoanhThu(): float
+//    {
+//        $qb = $this->em->createQueryBuilder();
+//
+//        $qb->select('SUM(d.tongTien)')
+//            ->from(DonHang::class, 'd')
+//            ->where('d.trangThai = :trangThai') // Add a condition
+//            ->setParameter('trangThai', 'da_hoan_thanh'); // Bind the parameter
+//
+//        $total = $qb->getQuery()->getSingleScalarResult();
+//
+//        return (float) $total;
+//    }
 }
