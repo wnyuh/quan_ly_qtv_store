@@ -14,12 +14,48 @@ class AuthController
         $this->em = require __DIR__ . '/../../config/doctrine.php';
     }
 
+    // public function dangNhap()
+    // {
+    //     // if (session_status() === PHP_SESSION_NONE) {
+    //     //     session_start();
+    //     // }
+
+    //     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    //         $email = $_POST['email'] ?? '';
+    //         $matKhau = $_POST['mat_khau'] ?? '';
+
+    //         $user = $this->em->getRepository(NguoiDung::class)->findOneBy(['email' => $email]);
+
+    //         if (!$user) {
+    //             error_log("DangNhap: Khong tim thay user voi email: $email");
+    //         } else {
+    //             error_log("DangNhap: Tim thay user voi email: " . $user->getEmail());
+    //             error_log("DangNhap: Mat khau hash trong DB: " . $user->getMatKhau());
+    //             error_log("DangNhap: Mat khau nguoi dung nhap: $matKhau");
+    //             error_log("DangNhap: password_verify ket qua: " . (password_verify($matKhau, $user->getMatKhau()) ? 'true' : 'false'));
+    //         }
+
+
+    //         // if ($user && ($matKhau === $user->getMatKhau() || password_verify($matKhau, $user->getMatKhau())))
+    //         if ($user && password_verify($matKhau, $user->getMatKhau()))  {
+    //             $_SESSION['user_id'] = $user->getId();
+
+    //             $redirect = $_SESSION['redirect_after_login'] ?? '/';
+    //             unset($_SESSION['redirect_after_login']);
+    //             header("Location: $redirect");
+    //             exit;
+    //         } else {
+    //             $error = 'Email hoặc mật khẩu không đúng.';
+    //             view('auth/login', ['error' => $error]);
+    //             return;
+    //         }
+    //     } else {
+    //         view('auth/login');
+    //     }
+    // }
+
     public function dangNhap()
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email = $_POST['email'] ?? '';
             $matKhau = $_POST['mat_khau'] ?? '';
@@ -27,32 +63,38 @@ class AuthController
             $user = $this->em->getRepository(NguoiDung::class)->findOneBy(['email' => $email]);
 
             if (!$user) {
-                error_log("DangNhap: Khong tim thay user voi email: $email");
-            } else {
-                error_log("DangNhap: Tim thay user voi email: " . $user->getEmail());
-                error_log("DangNhap: Mat khau hash trong DB: " . $user->getMatKhau());
-                error_log("DangNhap: Mat khau nguoi dung nhap: $matKhau");
-                error_log("DangNhap: password_verify ket qua: " . (password_verify($matKhau, $user->getMatKhau()) ? 'true' : 'false'));
-            }
-
-            if ($user && password_verify($matKhau, $user->getMatKhau())) {
-                $_SESSION['user_id'] = $user->getId();
-
-                $redirect = $_SESSION['redirect_after_login'] ?? '/';
-                unset($_SESSION['redirect_after_login']);
-                header("Location: $redirect");
-                exit;
-            } else {
                 $error = 'Email hoặc mật khẩu không đúng.';
                 view('auth/login', ['error' => $error]);
                 return;
             }
+
+            $matKhauDB = $user->getMatKhau();
+
+            // Kiểm tra nếu mật khẩu lưu trong DB chưa mã hóa
+            if ($matKhau === $matKhauDB) {
+                // => tự động mã hóa lại mật khẩu và cập nhật vào DB
+                $matKhauHash = password_hash($matKhau, PASSWORD_DEFAULT);
+                $user->setMatKhau($matKhauHash);
+                $this->em->persist($user);
+                $this->em->flush();
+            } elseif (!password_verify($matKhau, $matKhauDB)) {
+                // Mật khẩu nhập sai
+                $error = 'Email hoặc mật khẩu không đúng.';
+                view('auth/login', ['error' => $error]);
+                return;
+            }
+
+            // Lưu session nếu đúng mật khẩu
+            $_SESSION['user_id'] = $user->getId();
+
+            $redirect = $_SESSION['redirect_after_login'] ?? '/';
+            unset($_SESSION['redirect_after_login']);
+            header("Location: $redirect");
+            exit;
         } else {
             view('auth/login');
         }
     }
-
-
 
     public function dangXuat()
     {
@@ -107,6 +149,8 @@ class AuthController
 
                     // **Quan trọng: chỉ truyền mật khẩu thô**
                     $user->setMatKhau($matKhau);  // Hash sẽ được thực hiện trong model
+                    // $user->setMatKhau(password_hash($matKhau, PASSWORD_DEFAULT)); // ✅ Đã mã hóa
+
 
                     $this->em->persist($user);
                     $this->em->flush();
@@ -121,7 +165,6 @@ class AuthController
                     // Đăng ký thành công thì redirect sang trang đăng nhập luôn
                     header('Location: /dang-nhap');
                     exit;
-                    
                 }
             }
         }

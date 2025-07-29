@@ -95,9 +95,14 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     ///
     $r->addRoute('GET', '/dang-nhap', ['App\Controllers\AuthController', 'dangNhap']);
     $r->addRoute('POST', '/dang-nhap', ['App\Controllers\AuthController', 'dangNhap']);
-    $r->addRoute('GET', '/dang-xuat', ['App\Controllers\AuthController', 'dangXuat']);
+    // $r->addRoute('GET', '/dang-xuat', ['App\Controllers\AuthController', 'dangXuat']);
     $r->addRoute(['GET', 'POST'], '/dang-ky', ['App\Controllers\AuthController', 'dangKy']);
     $r->addRoute('GET', '/xac-nhan', ['App\Controllers\AuthController', 'kichHoatTaiKhoan']);
+
+    // Route để hiển thị trang tài khoản người dùng sau khi đăng nhập
+    $r->addRoute('GET', '/tai-khoan', ['App\Controllers\NguoiDungController', 'taiKhoan']);
+    $r->addRoute('GET', '/dang-xuat', ['App\Controllers\AuthController', 'dangXuat']);
+
 });
 
 // 4. Fetch the request method and URI
