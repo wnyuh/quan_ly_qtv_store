@@ -67,8 +67,8 @@
             <div class="flex items-center space-x-3">
                 <div class="text-2xl md:text-4xl">📱</div>
                 <div>
-                    <h1 class="text-base font-bold text-yellow-300 md:text-2xl ">QTV Store</h1>
-                    <p class="text-xs text-yellow-100 hidden md:block  ">Cửa hàng điện thoại uy tín</p>
+                    <h1 class="text-base font-bold text-yellow-500 md:text-2xl ">QTV Store</h1>
+                    <p class="text-xs text-yellow-500 hidden md:block  ">Cửa hàng điện thoại uy tín</p>
                 </div>
             </div>
             </a>
@@ -128,8 +128,8 @@
     <?php echo $content; ?>
 </main>
 
-<footer class="border-t bg-card mt-auto ">
-    <div class="container mx-auto px-2 sm:px-6 lg:px-8 py-8">
+<footer class="border-t bg-card mt-auto">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
             <!-- Company Info -->
             <div class="space-y-4">

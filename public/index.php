@@ -96,6 +96,11 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('GET', '/dang-nhap', ['App\Controllers\AuthController', 'dangNhap']);
     $r->addRoute('POST', '/dang-nhap', ['App\Controllers\AuthController', 'dangNhap']);
     $r->addRoute('GET', '/dang-xuat', ['App\Controllers\AuthController', 'dangXuat']);
+
+    //
+    $r->addRoute('GET', '/danh-muc', ['App\Controllers\DanhMucController', 'danhSach']);
+    $r->addRoute('GET', '/danh-muc/{slug}', ['App\Controllers\DanhMucController', 'chiTiet']);
+// ...
 });
 
 // 4. Fetch the request method and URI
