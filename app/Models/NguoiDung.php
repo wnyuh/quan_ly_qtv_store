@@ -36,6 +36,12 @@ class NguoiDung
     #[ORM\Column(name: 'email_xac_thuc', type: 'datetime', nullable: true)]
     private ?\DateTime $emailXacThuc = null;
 
+    #[ORM\Column(name: 'ma_xac_thuc', type: 'string', length: 255, nullable: true)]
+    private ?string $maXacThuc = null;
+
+    #[ORM\Column(name: 'xac_thuc_het_han', type: 'datetime', nullable: true)]
+    private ?\DateTime $xacThucHetHan = null;
+
     #[ORM\Column(name: 'ngay_tao', type: 'datetime')]
     private \DateTime $ngayTao;
 
@@ -188,6 +194,58 @@ class NguoiDung
     public function getDonHangs(): Collection
     {
         return $this->donHangs;
+    }
+
+    public function getMaXacThuc(): ?string
+    {
+        return $this->maXacThuc;
+    }
+
+    public function setMaXacThuc(?string $maXacThuc): self
+    {
+        $this->maXacThuc = $maXacThuc;
+        return $this;
+    }
+
+    public function getXacThucHetHan(): ?\DateTime
+    {
+        return $this->xacThucHetHan;
+    }
+
+    public function setXacThucHetHan(?\DateTime $xacThucHetHan): self
+    {
+        $this->xacThucHetHan = $xacThucHetHan;
+        return $this;
+    }
+
+    public function isEmailVerified(): bool
+    {
+        return $this->emailXacThuc !== null;
+    }
+
+    public function isConfirmationCodeValid(): bool
+    {
+        if ($this->maXacThuc === null || $this->xacThucHetHan === null) {
+            return false;
+        }
+        
+        return new \DateTime() < $this->xacThucHetHan;
+    }
+
+    public function generateConfirmationCode(): string
+    {
+        $code = bin2hex(random_bytes(32));
+        $this->maXacThuc = $code;
+        $this->xacThucHetHan = new \DateTime('+24 hours');
+        return $code;
+    }
+
+    public function confirmEmail(): self
+    {
+        $this->emailXacThuc = new \DateTime();
+        $this->maXacThuc = null;
+        $this->xacThucHetHan = null;
+        return $this;
     }
 
     // Hàm kiểm tra mật khẩu nhập vào có khớp mật khẩu hiện tại hay không

@@ -115,23 +115,43 @@
                             </svg>
                         </a>
                     </div> -->
-                    <?php if (session_status() === PHP_SESSION_NONE) session_start(); ?>
                     <div class="flex items-center space-x-2">
                         <?php if (isset($_SESSION['user_id'])): ?>
-                            <a href="/tai-khoan" title="Tài khoản" class="p-2 text-muted-foreground hover:text-foreground transition-colors">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                                    <circle cx="12" cy="7" r="4" />
-                                </svg>
-                            </a>
+                            <div class="dropdown-menu">
+                                <button type="button" id="user-dropdown-trigger" aria-haspopup="menu" aria-controls="user-dropdown-menu" aria-expanded="false" class="p-2 text-muted-foreground hover:text-foreground transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                        <circle cx="12" cy="7" r="4" />
+                                    </svg>
+                                </button>
+                                <div id="user-dropdown-popover" data-popover aria-hidden="true" class="min-w-56">
+                                    <div role="menu" id="user-dropdown-menu" aria-labelledby="user-dropdown-trigger">
+                                        <div role="group" aria-labelledby="account-options">
+                                            <div role="heading" id="account-options">Tài Khoản</div>
+                                            <a href="/tai-khoan" role="menuitem" class="block">
+                                                Thông tin cá nhân
+                                            </a>
+                                            <a href="/don-hang" role="menuitem" class="block">
+                                                Đơn hàng của tôi
+                                            </a>
+                                        </div>
+                                        <hr role="separator" />
+                                        <a href="/dang-xuat" role="menuitem" class="block">
+                                            Đăng xuất
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
                         <?php else: ?>
-                            <a href="/dang-nhap" title="Đăng nhập" class="p-2 text-muted-foreground hover:text-foreground transition-colors">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            <a href="/dang-nhap" class="flex items-center space-x-2 bg-primary text-primary-foreground px-3 py-2 rounded-md hover:bg-primary/90 transition-colors font-medium">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                                    <circle cx="12" cy="7" r="4" />
+                                    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+                                    <polyline points="10,17 15,12 10,7" />
+                                    <line x1="15" x2="3" y1="12" y2="12" />
                                 </svg>
+                                <span class="hidden sm:inline">Đăng Nhập</span>
                             </a>
                         <?php endif; ?>
                     </div>
