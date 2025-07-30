@@ -104,6 +104,9 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('POST', '/dang-xuat', ['App\Controllers\NguoiDungController', 'dangXuat']);
     $r->addRoute('POST', '/tai-khoan/cap-nhat', ['App\Controllers\NguoiDungController', 'capNhat']);
     $r->addRoute('POST', '/tai-khoan/doi-mat-khau', ['App\Controllers\NguoiDungController', 'doiMatKhau']);
+
+    // Route để thanh toán người dùng
+    $r->addRoute('POST', '/gio-hang/dat-hang', ['App\Controllers\GioHangController', 'datHang']);
 });
 
 // 4. Fetch the request method and URI

@@ -17,7 +17,7 @@
         <div>
             <label class="font-medium text-gray-600">Email</label>
             <input type="email" name="email" readonly
-                class="mt-1 w-full border px-3 py-2 rounded-md bg-gray-100 cursor-not-allowed"
+                class="mt-1 w-full border px-3 py-2 rounded-md  cursor-not-allowed"
                 value="<?= htmlspecialchars($nguoi_dung->getEmail()) ?>">
         </div>
 

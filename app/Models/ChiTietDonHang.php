@@ -152,4 +152,11 @@ class ChiTietDonHang
     {
         return number_format($this->tongGia, 0, ',', '.') . ' ₫';
     }
+
+    public function setDonGia(float $donGia): self
+    {
+        $this->giaDonVi = $donGia;
+        $this->calculateTongGia();
+        return $this;
+    }
 }

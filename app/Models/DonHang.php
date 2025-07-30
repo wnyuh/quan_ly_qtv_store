@@ -404,4 +404,6 @@ class DonHang
     {
         return $this->maGiamGia !== null && $this->tienGiamGia > 0;
     }
+
+   
 }
