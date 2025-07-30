@@ -67,14 +67,14 @@
             <div class="flex justify-between items-center h-16">
                 <!-- Logo/Brand -->
                 <a href="/">
-            <div class="flex items-center space-x-3">
-                    <div class="text-2xl md:text-4xl">📱</div>
-                    <div>
-                        <h1 class="text-base font-bold text-yellow-500 md:text-2xl ">QTV Store</h1>
-                        <p class="text-xs text-yellow-500 hidden md:block  ">Cửa hàng điện thoại uy tín</p>
+                    <div class="flex items-center space-x-3">
+                        <div class="text-2xl md:text-4xl">📱</div>
+                        <div>
+                            <h1 class="text-base font-bold text-yellow-500 md:text-2xl ">QTV Store</h1>
+                            <p class="text-xs text-yellow-500 hidden md:block  ">Cửa hàng điện thoại uy tín</p>
+                        </div>
                     </div>
-                </div>
-            </a>
+                </a>
 
                 <!-- Main Navigation -->
                 <nav class="hidden md:flex items-center space-x-8">
@@ -107,14 +107,35 @@
 
 
                     <!-- User Menu -->
-                    <div class="flex items-center space-x-2">
-                        <button class="p-2 text-muted-foreground hover:text-foreground transition-colors">
+                    <!-- <div class="flex items-center space-x-2">
+                        <a href="/dang-nhap" title="Đăng nhập" class="p-2 text-muted-foreground hover:text-foreground transition-colors">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                                 <circle cx="12" cy="7" r="4" />
                             </svg>
-                        </button>
+                        </a>
+                    </div> -->
+                    <?php if (session_status() === PHP_SESSION_NONE) session_start(); ?>
+                    <div class="flex items-center space-x-2">
+                        <?php if (isset($_SESSION['user_id'])): ?>
+                            <a href="/tai-khoan" title="Tài khoản" class="p-2 text-muted-foreground hover:text-foreground transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                    <circle cx="12" cy="7" r="4" />
+                                </svg>
+                            </a>
+                        <?php else: ?>
+                            <a href="/dang-nhap" title="Đăng nhập" class="p-2 text-muted-foreground hover:text-foreground transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                    <circle cx="12" cy="7" r="4" />
+                                </svg>
+                            </a>
+                        <?php endif; ?>
                     </div>
+
 
                     <!-- Theme Toggle -->
                     <button
@@ -156,7 +177,7 @@
         <?php echo $content; ?>
     </main>
 
-    <footer class="border-t bg-card mt-auto">
+    <footer class="border-t bg-card mt-auto ">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <!-- Company Info -->
@@ -165,8 +186,7 @@
                         <div class="text-xl">📱</div>
                         <h3 class="font-bold text-foreground">QTV Store</h3>
                     </div>
-                    <p class="text-sm text-muted-foreground">Cửa hàng điện thoại uy tín, chất lượng cao với giá cả phải chăng.
-                        Hỗ trợ khách hàng tận tâm - Mua sắm dễ dàng!</p>
+                    <p class="text-sm text-muted-foreground">Cửa hàng điện thoại uy tín, chất lượng cao với giá cả phải chăng.Hỗ trợ khách hàng tận tâm - Mua sắm dễ dàng!</p>
                     <div class="flex space-x-3">
                         <a href="#" class="text-muted-foreground hover:text-foreground">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
@@ -174,8 +194,7 @@
                             </svg>
                         </a>
                         <a href="#" class="text-muted-foreground hover:text-foreground">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                                <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z" />
                             </svg>
                         </a>
                         <a href="#" class="text-muted-foreground hover:text-foreground">
