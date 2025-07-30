@@ -1,32 +1,60 @@
-<h2 class="text-4xl font-extrabold text-center mb-10 text-yellow-400 drop-shadow-lg">Đăng nhập</h2>
-
-<?php if (!empty($error)): ?>
-    <div class="max-w-md mx-auto mb-8 p-5 bg-red-700 bg-opacity-90 text-white rounded-xl text-center font-semibold shadow-lg animate-pulse">
-        <?= htmlspecialchars($error) ?>
+<div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+        <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-foreground">
+            Đăng nhập tài khoản
+        </h2>
     </div>
-<?php endif; ?>
 
-<form method="post" action="/dang-nhap" class="max-w-md mx-auto bg-gray-900 bg-opacity-90 p-10 rounded-3xl shadow-2xl ring-1 ring-yellow-400 ring-opacity-40 hover:ring-opacity-70 transition-all duration-300">
-    <div class="mb-8">
-        <label for="email" class="block text-yellow-300 font-semibold mb-3 text-lg">Email</label>
-        <input id="email" name="email" type="email" required
-            class="w-full px-5 py-4 rounded-xl bg-gray-800 border border-yellow-400 text-yellow-100 placeholder-yellow-600 focus:outline-none focus:ring-4 focus:ring-yellow-400 focus:ring-opacity-60 transition duration-300"
-            placeholder="Nhập email của bạn" />
-    </div>
-    <div class="mb-10">
-        <label for="mat_khau" class="block text-yellow-300 font-semibold mb-3 text-lg">Mật khẩu</label>
-        <input id="mat_khau" name="mat_khau" type="password" required
-            class="w-full px-5 py-4 rounded-xl bg-gray-800 border border-yellow-400 text-yellow-100 placeholder-yellow-600 focus:outline-none focus:ring-4 focus:ring-yellow-400 focus:ring-opacity-60 transition duration-300"
-            placeholder="Nhập mật khẩu của bạn" />
-    </div>
-    <button type="submit"
-        class="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 text-black font-extrabold py-4 rounded-3xl shadow-lg hover:from-yellow-500 hover:to-yellow-600 active:scale-95 transform transition duration-200">
-        Đăng nhập
-    </button>
-</form>
+    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <?php if (!empty($error)): ?>
+            <div class="mb-6 rounded-md border border-destructive/50 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+                <div class="flex items-center space-x-2">
+                    <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="15" x2="9" y1="9" y2="15"/>
+                        <line x1="9" x2="15" y1="9" y2="15"/>
+                    </svg>
+                    <span><?= htmlspecialchars($error) ?></span>
+                </div>
+            </div>
+        <?php endif; ?>
 
-<div class="max-w-md mx-auto mt-6 text-center text-yellow-300 font-semibold text-lg">
-    <p>Bạn chưa có tài khoản?
-        <a href="/dang-ky" class="text-yellow-400 font-bold hover:text-yellow-600 underline transition duration-200">Đăng ký ngay</a>
-    </p>
+        <form method="post" action="/dang-nhap" class="space-y-6">
+            <div>
+                <label for="email" class="block text-sm font-medium leading-6 text-foreground">
+                    Địa chỉ email
+                </label>
+                <div class="mt-2">
+                    <input id="email" name="email" type="email" required
+                        class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        placeholder="name@example.com" />
+                </div>
+            </div>
+
+            <div>
+                <label for="mat_khau" class="block text-sm font-medium leading-6 text-foreground">
+                    Mật khẩu
+                </label>
+                <div class="mt-2">
+                    <input id="mat_khau" name="mat_khau" type="password" required
+                        class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                        placeholder="Nhập mật khẩu" />
+                </div>
+            </div>
+
+            <div>
+                <button type="submit"
+                    class="inline-flex h-10 w-full items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground ring-offset-background transition-colors hover:bg-primary/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50">
+                    Đăng nhập
+                </button>
+            </div>
+        </form>
+
+        <p class="mt-10 text-center text-sm text-muted-foreground">
+            Chưa có tài khoản?
+            <a href="/dang-ky" class="font-semibold leading-6 text-primary hover:text-primary/80">
+                Đăng ký ngay
+            </a>
+        </p>
+    </div>
 </div>

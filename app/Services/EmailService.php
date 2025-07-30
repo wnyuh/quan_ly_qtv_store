@@ -37,9 +37,13 @@ class EmailService
             $this->mailer->SMTPAuth = true;
             $this->mailer->Username = $this->config['username'];
             $this->mailer->Password = $this->config['password'];
-            $this->mailer->SMTPSecure = $this->config['encryption'];
             $this->mailer->Port = $this->config['port'];
             $this->mailer->CharSet = $this->config['charset'];
+            
+            // Set encryption only if specified
+            if (!empty($this->config['encryption'])) {
+                $this->mailer->SMTPSecure = $this->config['encryption'];
+            }
 
             // Default sender
             $this->mailer->setFrom($this->config['from_email'], $this->config['from_name']);
@@ -122,6 +126,26 @@ class EmailService
             return $this->mailer->send();
         } catch (Exception $e) {
             error_log("Contact form email failed: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    public function sendEmailConfirmation(string $toEmail, string $toName, string $confirmationCode): bool
+    {
+        try {
+            $this->mailer->clearAddresses();
+            $this->mailer->addAddress($toEmail, $toName);
+
+            $this->mailer->isHTML(true);
+            $this->mailer->Subject = 'Xác nhận đăng ký tài khoản - Cửa hàng Store';
+            
+            $confirmationLink = "http://localhost:8000/xac-nhan?code=" . $confirmationCode;
+            $this->mailer->Body = $this->getEmailConfirmationTemplate($toName, $confirmationLink);
+            $this->mailer->AltBody = "Chào {$toName}, vui lòng nhấp vào liên kết sau để xác nhận tài khoản: {$confirmationLink}";
+
+            return $this->mailer->send();
+        } catch (Exception $e) {
+            error_log("Email confirmation failed: " . $e->getMessage());
             return false;
         }
     }
@@ -282,6 +306,46 @@ class EmailService
                         <h3>Nội dung tin nhắn</h3>
                         <p>" . nl2br(htmlspecialchars($message)) . "</p>
                     </div>
+                </div>
+            </div>
+        </body>
+        </html>";
+    }
+
+    private function getEmailConfirmationTemplate(string $name, string $confirmationLink): string
+    {
+        return "
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset='UTF-8'>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+                .header { background: #10b981; color: white; padding: 20px; text-align: center; }
+                .content { padding: 20px; background: #f9f9f9; }
+                .footer { padding: 20px; text-align: center; font-size: 12px; color: #666; }
+                .btn { display: inline-block; padding: 10px 20px; background: #10b981; color: white; text-decoration: none; border-radius: 5px; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <div class='header'>
+                    <h1>Xác nhận đăng ký tài khoản</h1>
+                </div>
+                <div class='content'>
+                    <h2>Xin chào {$name},</h2>
+                    <p>Cảm ơn bạn đã đăng ký tài khoản tại Cửa hàng Store!</p>
+                    <p>Để hoàn tất quá trình đăng ký, vui lòng nhấp vào nút bên dưới để xác nhận địa chỉ email của bạn:</p>
+                    
+                    <p style='text-align: center;'>
+                        <a href='{$confirmationLink}' class='btn'>Xác nhận tài khoản</a>
+                    </p>
+                    
+                    <p><small>Liên kết này sẽ hết hạn sau 24 giờ. Nếu bạn không thực hiện đăng ký này, vui lòng bỏ qua email này.</small></p>
+                </div>
+                <div class='footer'>
+                    <p>&copy; 2024 Cửa hàng Store. Tất cả quyền được bảo lưu.</p>
                 </div>
             </div>
         </body>

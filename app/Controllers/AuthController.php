@@ -3,7 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\NguoiDung;
-use App\Services\Mailer; // Giả sử bạn có service gửi mail
+use App\Services\EmailService;
 
 class AuthController
 {
@@ -64,6 +64,13 @@ class AuthController
 
             if (!$user) {
                 $error = 'Email hoặc mật khẩu không đúng.';
+                view('auth/login', ['error' => $error]);
+                return;
+            }
+
+            // Kiểm tra email đã được xác nhận chưa
+            if (!$user->isEmailVerified()) {
+                $error = 'Vui lòng xác nhận email trước khi đăng nhập. Kiểm tra hộp thư của bạn.';
                 view('auth/login', ['error' => $error]);
                 return;
             }
@@ -153,25 +160,29 @@ class AuthController
 
                     $user->setHo($ho);
                     $user->setTen($ten);
+                    $user->setMatKhau($matKhau);
 
-                    // **Quan trọng: chỉ truyền mật khẩu thô**
-                    $user->setMatKhau($matKhau);  // Hash sẽ được thực hiện trong model
-                    // $user->setMatKhau(password_hash($matKhau, PASSWORD_DEFAULT)); // ✅ Đã mã hóa
-
+                    // Tạo mã xác thực
+                    $confirmationCode = $user->generateConfirmationCode();
 
                     $this->em->persist($user);
                     $this->em->flush();
 
-                    //Bỏ gửi mail xác nhận tạm thời
-                    // $mailer = new Mailer();
-                    // $linkKichHoat = 'http://' . $_SERVER['HTTP_HOST'] . "/xac-nhan?code=$maKichHoat";
-                    // $body = "Chào $hoTen, vui lòng nhấn vào link để kích hoạt tài khoản: <a href='$linkKichHoat'>$linkKichHoat</a>";
-                    // $mailer->send($email, 'Xác nhận đăng ký tài khoản', $body);
-
-                    // $success = 'Đăng ký thành công! Bạn có thể đăng nhập ngay.';
-                    // Đăng ký thành công thì redirect sang trang đăng nhập luôn
-                    header('Location: /dang-nhap');
-                    exit;
+                    // Gửi email xác nhận
+                    try {
+                        $emailConfig = require __DIR__ . '/../../config/email.php';
+                        $emailService = new EmailService($emailConfig);
+                        $emailSent = $emailService->sendEmailConfirmation($email, $hoTen, $confirmationCode);
+                        
+                        if ($emailSent) {
+                            $success = 'Đăng ký thành công! Vui lòng kiểm tra email để xác nhận tài khoản.';
+                        } else {
+                            $success = 'Đăng ký thành công! Tuy nhiên, không thể gửi email xác nhận. Vui lòng liên hệ admin.';
+                        }
+                    } catch (Exception $e) {
+                        error_log('Email sending failed: ' . $e->getMessage());
+                        $success = 'Đăng ký thành công! Tuy nhiên, không thể gửi email xác nhận. Vui lòng liên hệ admin.';
+                    }
                 }
             }
         }
@@ -187,22 +198,28 @@ class AuthController
         }
 
         $code = $_GET['code'] ?? null;
+        $error = '';
+        $success = '';
+
         if (!$code) {
-            echo "Mã kích hoạt không hợp lệ.";
-            exit;
+            $error = 'Mã xác nhận không hợp lệ.';
+        } else {
+            $user = $this->em->getRepository(NguoiDung::class)->findOneBy(['maXacThuc' => $code]);
+            if (!$user) {
+                $error = 'Mã xác nhận không tồn tại hoặc đã được sử dụng.';
+            } elseif (!$user->isConfirmationCodeValid()) {
+                $error = 'Mã xác nhận đã hết hạn. Vui lòng đăng ký lại.';
+            } else {
+                // Xác nhận email
+                $user->confirmEmail();
+                $this->em->flush();
+                $success = 'Xác nhận tài khoản thành công! Bạn có thể đăng nhập ngay bây giờ.';
+            }
         }
 
-        $user = $this->em->getRepository(NguoiDung::class)->findOneBy(['maKichHoat' => $code]);
-        if (!$user) {
-            echo "Mã kích hoạt không tồn tại hoặc đã hết hạn.";
-            exit;
-        }
-
-        $user->setKichHoat(true);
-        $user->setMaKichHoat(null); // Xóa mã kích hoạt sau khi dùng
-        $this->em->flush();
-
-        echo "Kích hoạt tài khoản thành công. Bạn có thể đăng nhập ngay bây giờ.";
-        echo "<br><a href='/dang-nhap'>Đăng nhập</a>";
+        view('auth/confirmation', [
+            'error' => $error,
+            'success' => $success
+        ]);
     }
 }
