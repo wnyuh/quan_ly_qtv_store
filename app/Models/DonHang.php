@@ -95,7 +95,11 @@ class DonHang
 
     private function generateOrderNumber(): string
     {
-        return 'DH' . date('YmdHis') . rand(100, 999);
+        // current timestamp with milliseconds
+        $date = (new \DateTime())->format('YmdHisv');
+        // secure 4‑digit random
+        $random = random_int(1000, 9999);
+        return 'DH' . $date . $random;
     }
 
     public function getId(): int
@@ -259,6 +263,12 @@ class DonHang
     public function setNgayNhan(?\DateTime $ngayNhan): self
     {
         $this->ngayNhan = $ngayNhan;
+        return $this;
+    }
+
+    public function setNgayTao(?\DateTime $ngayTao): self
+    {
+        $this->ngayTao = $ngayTao;
         return $this;
     }
 

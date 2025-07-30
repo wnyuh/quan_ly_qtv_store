@@ -36,14 +36,14 @@
                 </div>
             </div>
         </div>
-        
-        <div class="card p-4">
+
+        <div class="card ">
             <div class="flex items-center">
                 <div class="text-2xl mr-3">💰</div>
                 <div>
-                    <p class="text-sm font-medium text-muted-foreground">Doanh thu</p>
-                    <p class="text-2xl font-bold text-foreground">
-                        <?= $doanh_thu ?>
+                    <p class="text-sm font-medium opacity-75 ">Doanh thu năm <?= date('Y') ?></p>
+                    <p class="text-2xl font-bold">
+                        <?= number_format($doanh_thu, 0, ',', '.') ?> ₫
                     </p>
                 </div>
             </div>
@@ -59,7 +59,7 @@
             </header>
             <section>
                 <div class="space-y-3">
-                    <a href="#" class="flex items-center p-3 hover:bg-muted rounded-lg transition-colors">
+                    <a href="/admin/san-pham/them" class="flex items-center p-3 hover:bg-muted rounded-lg transition-colors">
                         <div class="text-xl mr-3">➕</div>
                         <div>
                             <p class="font-medium text-foreground">Thêm sản phẩm mới</p>
@@ -67,7 +67,7 @@
                         </div>
                     </a>
                     
-                    <a href="#" class="flex items-center p-3 hover:bg-muted rounded-lg transition-colors">
+                    <a href="/admin/bao-cao/doanh-thu" class="flex items-center p-3 hover:bg-muted rounded-lg transition-colors">
                         <div class="text-xl mr-3">📊</div>
                         <div>
                             <p class="font-medium text-foreground">Xem báo cáo</p>

@@ -86,12 +86,30 @@
                         <tbody>
                         <?php foreach ($donHang->getChiTiets() as $item): ?>
                             <tr class="border-b border-border">
-                                <td class="py-2 px-4 text-foreground"><?= htmlspecialchars($item->getSanPham()->getTen()) ?></td>
-                                <td class="py-2 px-4 text-right text-foreground"><?= number_format($item->getDonGia(), 0, ',', '.') ?> ₫</td>
-                                <td class="py-2 px-4 text-center text-foreground"><?= $item->getSoLuong() ?></td>
-                                <td class="py-2 px-4 text-right text-foreground"><?= number_format($item->getDonGia() * $item->getSoLuong(), 0, ',', '.') ?> ₫</td>
+                                <!-- Hiển thị tên sản phẩm đã lưu trong ChiTietDonHang -->
+                                <td class="py-2 px-4 text-foreground">
+                                    <?= htmlspecialchars($item->getTenSanPham()) ?>
+                                </td>
+
+                                <!-- Đơn giá: sử dụng getGiaDonVi() -->
+                                <td class="py-2 px-4 text-right text-foreground">
+                                    <?= number_format($item->getGiaDonVi(), 0, ',', '.') ?> ₫
+                                </td>
+
+                                <!-- Số lượng -->
+                                <td class="py-2 px-4 text-center text-foreground">
+                                    <?= $item->getSoLuong() ?>
+                                </td>
+
+                                <!-- Thành tiền = đơn giá * số lượng -->
+                                <td class="py-2 px-4 text-right text-foreground">
+                                    <?= number_format($item->getGiaDonVi() * $item->getSoLuong(), 0, ',', '.') ?> ₫
+                                </td>
                             </tr>
                         <?php endforeach; ?>
+
+
+
                         </tbody>
                     </table>
                 </section>

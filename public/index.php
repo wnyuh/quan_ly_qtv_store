@@ -79,6 +79,18 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute(['GET', 'POST'],   '/admin/nguoi-dung/sua/{id:\d+}',      ['App\Controllers\Admin\NguoiDungController', 'sua']);
     $r->addRoute('POST',           '/admin/nguoi-dung/xoa/{id:\d+}',      ['App\Controllers\Admin\NguoiDungController', 'xoa']);
 
+    // Admin discount code routes
+    $r->addRoute('GET',              '/admin/ma-giam-gia',                  ['App\Controllers\Admin\MaGiamGiaController', 'danhSach']);
+    $r->addRoute(['GET','POST'],     '/admin/ma-giam-gia/them',             ['App\Controllers\Admin\MaGiamGiaController', 'them']);
+    $r->addRoute('GET',              '/admin/ma-giam-gia/chi-tiet/{id:\d+}', ['App\Controllers\Admin\MaGiamGiaController', 'chiTiet']);
+    $r->addRoute(['GET','POST'],     '/admin/ma-giam-gia/sua/{id:\d+}',      ['App\Controllers\Admin\MaGiamGiaController', 'sua']);
+    $r->addRoute('POST',             '/admin/ma-giam-gia/xoa/{id:\d+}',      ['App\Controllers\Admin\MaGiamGiaController', 'xoa']);
+
+
+    // Admin revenue report routes
+    $r->addRoute('GET',  '/admin/bao-cao/doanh-thu',                  ['App\Controllers\Admin\BaoCaoController', 'doanhThu']);
+    $r->addRoute('POST','/admin/bao-cao/doanh-thu',                  ['App\Controllers\Admin\BaoCaoController', 'doanhThu']);
+
     // {id:\d+} means the 'id' parameter must be a digit
     // Định tuyến cho các thao tác giỏ hàng
     $r->addRoute('GET', '/gio-hang', ['App\Controllers\GioHangController', 'index']);
@@ -90,6 +102,11 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('GET', '/dang-nhap', ['App\Controllers\AuthController', 'dangNhap']);
     $r->addRoute('POST', '/dang-nhap', ['App\Controllers\AuthController', 'dangNhap']);
     $r->addRoute('GET', '/dang-xuat', ['App\Controllers\AuthController', 'dangXuat']);
+
+    //
+    $r->addRoute('GET', '/danh-muc', ['App\Controllers\DanhMucController', 'danhSach']);
+    $r->addRoute('GET', '/danh-muc/{slug}', ['App\Controllers\DanhMucController', 'chiTiet']);
+// ...
 });
 
 // 4. Fetch the request method and URI
