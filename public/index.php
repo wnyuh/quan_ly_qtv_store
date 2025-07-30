@@ -16,6 +16,7 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
 $dotenv->load();
 
 // Initialize logger
+use App\Controllers\ThuongHieuController;
 use App\Services\Logger;
 
 $logger = Logger::getInstance();
@@ -115,7 +116,8 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     //
     $r->addRoute('GET', '/danh-muc', ['App\Controllers\DanhMucController', 'danhSach']);
     $r->addRoute('GET', '/danh-muc/{slug}', ['App\Controllers\DanhMucController', 'chiTiet']);
-// ...
+    //
+    $r->addRoute('GET', '/thuong-hieu/{slug}', [ThuongHieuController::class, 'chiTiet']);
 });
 
 // 4. Fetch the request method and URI

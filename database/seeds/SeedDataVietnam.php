@@ -30,11 +30,11 @@ class SeedDataVietnam
         echo "Bắt đầu seed dữ liệu tiếng Việt...\n";
 
         // 1. Tạo thương hiệu
-        $apple = $this->createBrand();
+        $brands = $this->createBrands();
+        $apple  = $brands['apple'];
 
         // 2. Tạo danh mục
         $categories = $this->createCategories();
-
 
         // 3. Tạo sản phẩm iPhone với dữ liệu thực tế
         $this->createiPhoneProducts($apple, $categories['smartphone']);
@@ -46,20 +46,49 @@ class SeedDataVietnam
         echo "Hoàn thành seed dữ liệu!\n";
     }
 
-    private function createBrand()
+    private function createBrands(): array
     {
-        $apple = new ThuongHieu();
-        $apple->setTen('Apple')
-            ->setDuongDan('apple')
-            ->setLogo('logo.svg')
-            ->setMoTa('Công ty công nghệ hàng đầu thế giới, nổi tiếng với các sản phẩm iPhone, iPad, Mac và các thiết bị điện tử cao cấp.')
-            ->setWebsite('https://www.apple.com');
+        $data = [
+            [ 'ten' => 'Apple',   'slug' => 'apple',   'logo' => 'https://www.shareicon.net/data/256x256/2015/09/26/107646_apple_512x512.png',
+                'moTa' => 'Công ty công nghệ hàng đầu thế giới, nổi tiếng với các sản phẩm iPhone, iPad, Mac và các thiết bị điện tử cao cấp.',
+                'website' => 'https://www.apple.com' ],
+            [ 'ten' => 'Samsung', 'slug' => 'samsung', 'logo' => 'https://cdn-icons-png.flaticon.com/256/882/882747.png',
+                'moTa' => 'Tập đoàn điện tử Hàn Quốc lớn nhất thế giới, dẫn đầu về dòng Galaxy từ phân khúc phổ thông đến cao cấp.',
+                'website' => 'https://www.samsung.com' ],
+            [ 'ten' => 'Xiaomi',  'slug' => 'xiaomi',  'logo' => 'https://cdn-icons-png.flaticon.com/256/882/882720.png',
+                'moTa' => 'Công ty công nghệ Trung Quốc, nổi bật với smartphone cấu hình cao mà giá cả hợp lý cùng giao diện MIUI.',
+                'website' => 'https://www.mi.com/global' ],
+            [ 'ten' => 'Huawei',  'slug' => 'huawei',  'logo' => 'https://pcr.cloud-mercato.com/static/img/logo/huawei.png',
+                'moTa' => 'Tập đoàn viễn thông và thiết bị tiêu dùng Trung Quốc, chuyên về smartphone camera mạnh và hạ tầng mạng.',
+                'website' => 'https://www.huawei.com' ],
+            [ 'ten' => 'OPPO',    'slug' => 'oppo',    'logo' => 'https://img-prd-pim.poorvika.com/brand/Logo-0-0031-oppo.png',
+                'moTa' => 'Thương hiệu smartphone Trung Quốc, nổi tiếng với thiết kế tinh tế và công nghệ sạc siêu nhanh VOOC.',
+                'website' => 'https://www.oppo.com' ],
+            [ 'ten' => 'Nokia',   'slug' => 'nokia',   'logo' => 'https://cdn-icons-png.freepik.com/256/882/882740.png?semt=ais_hybrid',
+                'moTa' => 'Công ty Phần Lan danh tiếng, nổi bật với độ bền bỉ và hiện do HMD Global phát triển smartphone',
+                'website' => 'https://www.nokia.com' ],
+            [ 'ten' => 'Vivo',    'slug' => 'vivo',    'logo' => 'https://cdn.iconscout.com/icon/free/png-256/free-vivo-282151.png?f=webp',
+                'moTa' => 'Hãng điện thoại Trung Quốc, chú trọng công nghệ âm thanh cao cấp và camera selfie ấn tượng.',
+                'website' => 'https://www.vivo.com' ],
+        ];
 
-        $this->em->persist($apple);
+        $created = [];
+        foreach ($data as $item) {
+            $b = new ThuongHieu();
+            $b->setTen($item['ten'])
+                ->setDuongDan($item['slug'])
+                ->setLogo($item['logo'])
+                ->setMoTa($item['moTa'])
+                ->setWebsite($item['website'])
+                ->setKichHoat(true);
+            // giữ nguyên ngày tạo/cập nhật hiện tại
+            $this->em->persist($b);
+            $created[$item['slug']] = $b;
+        }
         $this->em->flush();
 
-        echo "✓ Đã tạo thương hiệu Apple\n";
-        return $apple;
+        echo "✓ Đã tạo " . count($created) . " thương hiệu\n";
+        return $created;
     }
 
     private function createCategories()
