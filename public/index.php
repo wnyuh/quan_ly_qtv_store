@@ -98,6 +98,9 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('POST', '/gio-hang/cap-nhat', ['App\Controllers\GioHangController', 'capNhat']);
     $r->addRoute(['GET', 'POST'], '/gio-hang/xoa', ['App\Controllers\GioHangController', 'xoa']);
     $r->addRoute('GET', '/gio-hang/checkout', ['App\Controllers\GioHangController', 'checkout']);
+    $r->addRoute('POST', '/gio-hang/process-checkout', ['App\Controllers\GioHangController', 'processCheckout']);
+    $r->addRoute('POST', '/api/validate-discount', ['App\Controllers\GioHangController', 'validateDiscount']);
+    $r->addRoute('GET', '/don-hang/thanh-cong/{orderCode}', ['App\Controllers\DonHangController', 'thanhCong']);
 
     ///
     $r->addRoute('GET', '/dang-nhap', ['App\Controllers\AuthController', 'dangNhap']);
