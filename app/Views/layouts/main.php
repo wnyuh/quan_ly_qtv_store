@@ -67,8 +67,8 @@
             <div class="flex items-center space-x-3">
                 <div class="text-2xl md:text-4xl">📱</div>
                 <div>
-                    <h1 class="text-base font-bold text-yellow-300 md:text-2xl ">QTV Store</h1>
-                    <p class="text-xs text-yellow-100 hidden md:block  ">Cửa hàng điện thoại uy tín</p>
+                    <h1 class="text-base font-bold text-yellow-500 md:text-2xl ">QTV Store</h1>
+                    <p class="text-xs text-yellow-500 hidden md:block  ">Cửa hàng điện thoại uy tín</p>
                 </div>
             </div>
             </a>
