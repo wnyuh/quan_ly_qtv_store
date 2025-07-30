@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-class thongtinfooter
+class ThongTinFooterController
 {
     public function huongDanMuaHang()
     {

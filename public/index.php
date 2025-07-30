@@ -34,10 +34,10 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('GET', '/san-pham/{duongDan}', ['App\Controllers\SanPhamController', 'chiTiet']);
     $r->addRoute('POST', '/cart/add', ['App\Controllers\GioHangController', 'themVaoGio']);
 
-    $r->addRoute('GET', '/huong-dan-mua-hang', ['App\Controllers\thongtinfooter', 'huongDanMuaHang']);
-    $r->addRoute('GET', '/bao-hanh', ['App\Controllers\thongtinfooter', 'baoHanh']);
-    $r->addRoute('GET', '/doi-tra', ['App\Controllers\thongtinfooter', 'doiTraSanPham']);
-    $r->addRoute('GET', '/hinh-thuc-thanh-toan', ['App\Controllers\thongtinfooter', 'hinhThucThanhToan']);
+    $r->addRoute('GET', '/huong-dan-mua-hang', ['App\Controllers\ThongTinFooterController', 'huongDanMuaHang']);
+    $r->addRoute('GET', '/bao-hanh', ['App\Controllers\ThongTinFooterController', 'baoHanh']);
+    $r->addRoute('GET', '/doi-tra', ['App\Controllers\ThongTinFooterController', 'doiTraSanPham']);
+    $r->addRoute('GET', '/hinh-thuc-thanh-toan', ['App\Controllers\ThongTinFooterController', 'hinhThucThanhToan']);
 
     // Admin routes
     $r->addRoute(['GET', 'POST'], '/admin/login', ['App\Controllers\Admin\AdminController', 'login']);
