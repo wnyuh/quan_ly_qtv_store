@@ -128,8 +128,8 @@
     <?php echo $content; ?>
 </main>
 
-<footer class="border-t bg-card mt-auto ">
-    <div class="container mx-auto px-2 sm:px-6 lg:px-8 py-8">
+<footer class="border-t bg-card mt-auto">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
             <!-- Company Info -->
             <div class="space-y-4">
