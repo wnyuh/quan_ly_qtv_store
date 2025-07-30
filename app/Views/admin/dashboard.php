@@ -67,7 +67,7 @@
                         </div>
                     </a>
                     
-                    <a href="#" class="flex items-center p-3 hover:bg-muted rounded-lg transition-colors">
+                    <a href="/admin/bao-cao/doanh-thu" class="flex items-center p-3 hover:bg-muted rounded-lg transition-colors">
                         <div class="text-xl mr-3">📊</div>
                         <div>
                             <p class="font-medium text-foreground">Xem báo cáo</p>
