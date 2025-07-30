@@ -100,8 +100,6 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     //
     $r->addRoute('GET', '/danh-muc', ['App\Controllers\DanhMucController', 'danhSach']);
     $r->addRoute('GET', '/danh-muc/{slug}', ['App\Controllers\DanhMucController', 'chiTiet']);
-    $r->addRoute('GET', '/api/products-by-category/{id:\d+}', ['App\Controllers\DanhMucController', 'getProductsByCategoryAPI']);
-
 // ...
 });
 
