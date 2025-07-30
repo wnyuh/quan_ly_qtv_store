@@ -150,6 +150,27 @@ class EmailService
         }
     }
 
+    public function sendAdminOrderNotification(array $orderData): bool
+    {
+        try {
+            $adminEmail = 'admin@store.com'; // Hardcoded admin email
+            
+            $this->mailer->clearAddresses();
+            $this->mailer->addAddress($adminEmail, 'Admin Store');
+
+            $this->mailer->isHTML(true);
+            $this->mailer->Subject = "Đơn hàng mới #{$orderData['ma_don_hang']} - Cần xử lý";
+            
+            $this->mailer->Body = $this->getAdminOrderNotificationTemplate($orderData);
+            $this->mailer->AltBody = "Đơn hàng mới #{$orderData['ma_don_hang']} với tổng tiền {$orderData['tong_tien_formatted']} cần được xử lý.";
+
+            return $this->mailer->send();
+        } catch (Exception $e) {
+            error_log("Admin order notification failed: " . $e->getMessage());
+            return false;
+        }
+    }
+
     private function getWelcomeEmailTemplate(string $name): string
     {
         return "
@@ -346,6 +367,134 @@ class EmailService
                 </div>
                 <div class='footer'>
                     <p>&copy; 2024 Cửa hàng Store. Tất cả quyền được bảo lưu.</p>
+                </div>
+            </div>
+        </body>
+        </html>";
+    }
+
+    private function getAdminOrderNotificationTemplate(array $orderData): string
+    {
+        $itemsList = '';
+        if (!empty($orderData['items'])) {
+            foreach ($orderData['items'] as $item) {
+                $itemsList .= "<tr>
+                    <td style='padding: 8px; border-bottom: 1px solid #eee;'>{$item['ten_san_pham']}</td>
+                    <td style='padding: 8px; border-bottom: 1px solid #eee; text-align: center;'>{$item['so_luong']}</td>
+                    <td style='padding: 8px; border-bottom: 1px solid #eee; text-align: right;'>{$item['gia_don_vi_formatted']}</td>
+                    <td style='padding: 8px; border-bottom: 1px solid #eee; text-align: right;'>{$item['tong_gia_formatted']}</td>
+                </tr>";
+            }
+        }
+
+        return "
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset='UTF-8'>
+            <style>
+                body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+                .container { max-width: 700px; margin: 0 auto; padding: 20px; }
+                .header { background: #dc2626; color: white; padding: 20px; text-align: center; }
+                .content { padding: 20px; background: #f9f9f9; }
+                .order-info { background: white; padding: 15px; margin: 10px 0; border-radius: 5px; }
+                .items-table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+                .items-table th { background: #f3f4f6; padding: 10px; text-align: left; font-weight: bold; }
+                .items-table td { padding: 8px; border-bottom: 1px solid #eee; }
+                .address-box { background: #fef3c7; padding: 15px; margin: 10px 0; border-radius: 5px; border-left: 4px solid #f59e0b; }
+                .total-box { background: #dcfce7; padding: 15px; margin: 10px 0; border-radius: 5px; font-size: 16px; font-weight: bold; }
+                .btn { display: inline-block; padding: 12px 24px; background: #dc2626; color: white; text-decoration: none; border-radius: 5px; margin: 10px 5px; }
+                .footer { padding: 20px; text-align: center; font-size: 12px; color: #666; }
+            </style>
+        </head>
+        <body>
+            <div class='container'>
+                <div class='header'>
+                    <h1>🚨 ĐƠN HÀNG MỚI CẦN XỬ LÝ</h1>
+                </div>
+                <div class='content'>
+                    <div class='order-info'>
+                        <h3>Thông tin đơn hàng</h3>
+                        <table style='width: 100%;'>
+                            <tr>
+                                <td style='padding: 5px 0; font-weight: bold;'>Mã đơn hàng:</td>
+                                <td style='padding: 5px 0;'>{$orderData['ma_don_hang']}</td>
+                            </tr>
+                            <tr>
+                                <td style='padding: 5px 0; font-weight: bold;'>Ngày đặt:</td>
+                                <td style='padding: 5px 0;'>{$orderData['ngay_tao']}</td>
+                            </tr>
+                            <tr>
+                                <td style='padding: 5px 0; font-weight: bold;'>Khách hàng:</td>
+                                <td style='padding: 5px 0;'>{$orderData['ten_khach_hang']}</td>
+                            </tr>
+                            <tr>
+                                <td style='padding: 5px 0; font-weight: bold;'>Email:</td>
+                                <td style='padding: 5px 0;'>{$orderData['email_khach_hang']}</td>
+                            </tr>
+                            <tr>
+                                <td style='padding: 5px 0; font-weight: bold;'>Số điện thoại:</td>
+                                <td style='padding: 5px 0;'>{$orderData['so_dien_thoai']}</td>
+                            </tr>
+                            <tr>
+                                <td style='padding: 5px 0; font-weight: bold;'>Trạng thái:</td>
+                                <td style='padding: 5px 0;'><span style='background: #fbbf24; color: white; padding: 3px 8px; border-radius: 3px; font-size: 12px;'>{$orderData['trang_thai']}</span></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <div class='address-box'>
+                        <h3>📍 Địa chỉ giao hàng</h3>
+                        <p><strong>{$orderData['dia_chi']['ho_ten']}</strong></p>
+                        <p>{$orderData['dia_chi']['dia_chi_day_du']}</p>
+                        <p>📞 {$orderData['dia_chi']['so_dien_thoai']}</p>
+                    </div>
+
+                    <div class='order-info'>
+                        <h3>Sản phẩm đã đặt</h3>
+                        <table class='items-table'>
+                            <thead>
+                                <tr>
+                                    <th>Sản phẩm</th>
+                                    <th style='text-align: center;'>Số lượng</th>
+                                    <th style='text-align: right;'>Đơn giá</th>
+                                    <th style='text-align: right;'>Thành tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {$itemsList}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class='total-box'>
+                        <div style='display: flex; justify-content: space-between; margin: 5px 0;'>
+                            <span>Tạm tính:</span>
+                            <span>{$orderData['tong_phu_formatted']}</span>
+                        </div>
+                        <div style='display: flex; justify-content: space-between; margin: 5px 0;'>
+                            <span>Phí vận chuyển:</span>
+                            <span>{$orderData['phi_van_chuyen_formatted']}</span>
+                        </div>
+                        <hr style='margin: 10px 0;'>
+                        <div style='display: flex; justify-content: space-between; font-size: 18px; color: #dc2626;'>
+                            <span>TỔNG CỘNG:</span>
+                            <span>{$orderData['tong_tien_formatted']}</span>
+                        </div>
+                    </div>
+
+                    <div style='text-align: center; margin: 20px 0;'>
+                        <a href='http://localhost:8000/admin/don-hang/chi-tiet/{$orderData['id']}' class='btn'>Xem chi tiết đơn hàng</a>
+                        <a href='http://localhost:8000/admin/don-hang' class='btn'>Quản lý đơn hàng</a>
+                    </div>
+
+                    <div style='background: #fee2e2; padding: 15px; border-radius: 5px; border-left: 4px solid #dc2626;'>
+                        <p><strong>⏰ Lưu ý:</strong> Đơn hàng này cần được xử lý trong vòng 24 giờ để đảm bảo chất lượng dịch vụ khách hàng.</p>
+                    </div>
+                </div>
+                <div class='footer'>
+                    <p>&copy; 2024 Cửa hàng Store - Hệ thống quản lý đơn hàng</p>
+                    <p>Email này được gửi tự động, vui lòng không trả lời.</p>
                 </div>
             </div>
         </body>

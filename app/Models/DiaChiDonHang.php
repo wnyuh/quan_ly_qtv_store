@@ -41,6 +41,12 @@ class DiaChiDonHang
     #[ORM\Column(name: 'tinh_thanh', type: 'string', length: 100)]
     private string $tinhThanh;
 
+    #[ORM\Column(name: 'huyen_quan', type: 'string', length: 100, nullable: true)]
+    private ?string $huyenQuan = null;
+
+    #[ORM\Column(name: 'xa_phuong', type: 'string', length: 100, nullable: true)]
+    private ?string $xaPhuong = null;
+
     #[ORM\Column(name: 'ma_buu_dien', type: 'string', length: 20)]
     private string $maBuuDien;
 
@@ -85,6 +91,10 @@ class DiaChiDonHang
     public function setQuocGia(string $quocGia): self { $this->quocGia = $quocGia; return $this; }
     public function getSoDienThoai(): ?string { return $this->soDienThoai; }
     public function setSoDienThoai(?string $soDienThoai): self { $this->soDienThoai = $soDienThoai; return $this; }
+    public function getHuyenQuan(): ?string { return $this->huyenQuan; }
+    public function setHuyenQuan(?string $huyenQuan): self { $this->huyenQuan = $huyenQuan; return $this; }
+    public function getXaPhuong(): ?string { return $this->xaPhuong; }
+    public function setXaPhuong(?string $xaPhuong): self { $this->xaPhuong = $xaPhuong; return $this; }
     public function getNgayTao(): \DateTime { return $this->ngayTao; }
     
     public function getDiaChiDayDu(): string
@@ -93,7 +103,21 @@ class DiaChiDonHang
         if ($this->diaChi2) {
             $diaChi .= ', ' . $this->diaChi2;
         }
-        $diaChi .= ', ' . $this->thanhPho . ', ' . $this->tinhThanh . ' ' . $this->maBuuDien;
+        
+        // Use hierarchical address if available
+        if ($this->xaPhuong) {
+            $diaChi .= ', ' . $this->xaPhuong;
+        }
+        if ($this->huyenQuan) {
+            $diaChi .= ', ' . $this->huyenQuan;
+        }
+        $diaChi .= ', ' . $this->tinhThanh;
+        
+        // Add postal code if available
+        if ($this->maBuuDien) {
+            $diaChi .= ' ' . $this->maBuuDien;
+        }
+        
         return $diaChi;
     }
 }
