@@ -58,18 +58,18 @@
                             <div class="flex items-start gap-4 p-6 hover:bg-muted/30 transition-colors">
                                 <!-- Product Image -->
                                 <div class="flex-shrink-0">
-                                    <?php if (!empty($image)): ?>
-                                        <img src="<?= htmlspecialchars($image) ?>" 
-                                             alt="<?= htmlspecialchars($bienThe->getTenDayDu()) ?>"
-                                             class="w-20 h-20 object-cover rounded-lg border border-border shadow-sm" />
-                                    <?php else: ?>
-                                        <div class="w-20 h-20 bg-muted rounded-lg border border-border flex items-center justify-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground">
-                                                <rect width="18" height="18" x="3" y="3" rx="2"/>
-                                                <path d="m9 15 6-6m0 6-6-6"/>
-                                            </svg>
-                                        </div>
-                                    <?php endif; ?>
+                                    <div class="aspect-square flex items-center justify-center">
+                                        <?php
+                                        $hinhAnhChinh = $sanPham->getHinhAnhChinh();
+                                        if ($hinhAnhChinh):
+                                            ?>
+                                            <img src="<?= htmlspecialchars($hinhAnhChinh->getFullUrl()) ?>"
+                                                 alt="<?= htmlspecialchars($sanPham->getTen()) ?>"
+                                                 class="max-w-full max-h-full object-contain scale-90 hover:scale-100 transition-all">
+                                        <?php else: ?>
+                                            <div class="text-6xl">📱</div>
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
 
                                 <!-- Product Details -->

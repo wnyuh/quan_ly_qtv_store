@@ -30,7 +30,7 @@
                         <?php else: ?>
                             <div class="w-14 h-14 flex items-center justify-center
                                         bg-gray-200 text-gray-500 rounded-full border-2 border-gray-300">
-                                ?
+                                📱
                             </div>
                         <?php endif; ?>
                         <span class="mt-3 text-sm font-semibold text-center leading-snug">
