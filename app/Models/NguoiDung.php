@@ -190,5 +190,9 @@ class NguoiDung
         return $this->donHangs;
     }
 
-    
+    // Hàm kiểm tra mật khẩu nhập vào có khớp mật khẩu hiện tại hay không
+    public function kiemTraMatKhau(string $matKhau): bool
+    {
+        return password_verify($matKhau, $this->matKhau);
+    }
 }

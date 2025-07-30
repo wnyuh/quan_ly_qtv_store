@@ -98,11 +98,18 @@ class AuthController
 
     public function dangXuat()
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
+        // if (session_status() === PHP_SESSION_NONE) {
+        //     session_start();
+        // }
+        // session_destroy();
+        // header('Location: /');
+        // exit;
+
+        $_SESSION = [];
         session_destroy();
-        header('Location: /');
+        session_regenerate_id(true);
+
+        header("Location: /dang-nhap");
         exit;
     }
 

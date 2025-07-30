@@ -101,8 +101,9 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
 
     // Route để hiển thị trang tài khoản người dùng sau khi đăng nhập
     $r->addRoute('GET', '/tai-khoan', ['App\Controllers\NguoiDungController', 'taiKhoan']);
-    $r->addRoute('GET', '/dang-xuat', ['App\Controllers\AuthController', 'dangXuat']);
-
+    $r->addRoute('POST', '/dang-xuat', ['App\Controllers\NguoiDungController', 'dangXuat']);
+    $r->addRoute('POST', '/tai-khoan/cap-nhat', ['App\Controllers\NguoiDungController', 'capNhat']);
+    $r->addRoute('POST', '/tai-khoan/doi-mat-khau', ['App\Controllers\NguoiDungController', 'doiMatKhau']);
 });
 
 // 4. Fetch the request method and URI
