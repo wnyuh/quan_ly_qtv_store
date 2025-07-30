@@ -22,7 +22,7 @@
                     <a href="/danh-muc/<?= htmlspecialchars($dm->getDuongDan()) ?>"
                        class="flex-shrink-0 flex flex-col items-center w-34 px-4 py-3 rounded-sm
                               text-foreground font-medium bg-gray shadow-sm
-                              hover:text-yellow-600 hover:bg-yellow-100 hover:shadow-md
+                              hover:text-yellow-900 hover:bg-yellow-500 hover:shadow-md
                               transition duration-300 group">
                         <?php if ($dm->getHinhAnh()): ?>
                             <img src="<?= htmlspecialchars($dm->getHinhAnh()) ?>"
@@ -45,6 +45,30 @@
     <?php endif; ?>
 </div>
 
+<!-- Brands Section -->
+<div class="container mx-auto mb-12" x-data="{ scrollX: 0 }">
+    <h1 class="text-2xl font-bold text-foreground mb-6">Thương Hiệu</h1>
+        <?php if (!empty($thuongHieus)): ?>
+            <div class="container mx-auto mb-12 overflow-x-auto whitespace-nowrap ">
+                <ul class="inline-flex space-x-4 px-8">
+                    <?php foreach ($thuongHieus as $thuongHieu): ?>
+                        <li class="flex-shrink-0">
+                            <a href="/thuong-hieu/<?= htmlspecialchars($thuongHieu->getDuongDan()) ?>"
+                               class="flex items-center space-x-2 px-3 py-2 bg-gray-100 shadow-sm rounded-md hover:bg-yellow-500 transition">
+                                <img src="<?= htmlspecialchars($thuongHieu->getLogo()) ?>"
+                                     alt="<?= htmlspecialchars($thuongHieu->getTen()) ?>"
+                                     class="h-6 w-auto">
+                                <span class="text-base font-medium text-black">
+                    <?= htmlspecialchars($thuongHieu->getTen()) ?>
+                  </span>
+                            </a>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        <?php endif; ?>
+</div>
+
 <!-- Featured Products -->
 <?php if (!empty($sanPhamNoiBat)): ?>
 <section class="mb-12">
@@ -64,20 +88,6 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <?php foreach ($sanPhamMoi as $sanPham): ?>
             <?php component('product-card', ['sanPham' => $sanPham, 'showDescription' => false]); ?>
-        <?php endforeach; ?>
-    </div>
-</section>
-<?php endif; ?>
-
-<!-- Brands Section -->
-<?php if (!empty($thuongHieus)): ?>
-<section class="mb-12">
-    <h2 class="text-2xl font-bold text-foreground mb-6">Thương Hiệu</h2>
-    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-        <?php foreach ($thuongHieus as $thuongHieu): ?>
-        <div class="bg-card border rounded-lg p-4 text-center hover:shadow-md transition-shadow cursor-pointer">
-            <div class="font-semibold text-foreground"><?= htmlspecialchars($thuongHieu->getTen()) ?></div>
-        </div>
         <?php endforeach; ?>
     </div>
 </section>
