@@ -464,7 +464,7 @@
                         foreach ($cartItems as $item) {
                             $tongPhu += $item['bienThe']->getGia() * $item['qty'];
                         }
-                        $phiVanChuyen = 30000;
+                        $phiVanChuyen = 0;
                         $tongTien = $tongPhu + $phiVanChuyen;
                         ?>
                         <div class="space-y-2" id="order-summary">
