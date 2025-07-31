@@ -637,11 +637,11 @@ class SeedDataVietnam
             $unitPrice = $variant->getGia();
             $subTotal  = $unitPrice * $quantity;
             $tax       = round($subTotal * 0.1);
-            $shipping  = 30000;
+            $shipping  = 0;
             $discount  = rand(0, 50000);
 
             // Sinh ngày giao ngẫu nhiên: năm (0-5), tháng (0-11), ngày (0-364) trước
-            $yearsAgo  = rand(0, 5);
+            $yearsAgo  = rand(0, 1);
             $monthsAgo = rand(0, 11);
             $daysAgo   = rand(0, 364);
             $dateGiao  = (new \DateTime())->modify("-{$yearsAgo} years -{$monthsAgo} months -{$daysAgo} days");
