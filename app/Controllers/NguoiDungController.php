@@ -111,4 +111,25 @@ class NguoiDungController
         header("Location: /");
         exit;
     }
+
+    public function donHang()
+    {
+        if (!isset($_SESSION['user_id'])) {
+            $_SESSION['redirect_after_login'] = '/don-hang';
+            header("Location: /dang-nhap");
+            exit;
+        }
+
+        $userId = $_SESSION['user_id'];
+        $nguoi_dung = $this->em->getRepository(NguoiDung::class)->find($userId);
+
+        $don_hangs = $this->em->getRepository(DonHang::class)->findBy(
+            ['nguoiDung' => $nguoi_dung],
+            ['ngayTao' => 'DESC']
+        );
+
+        view('don-hang/index', [
+            'don_hangs' => $don_hangs
+        ]);
+    }
 }

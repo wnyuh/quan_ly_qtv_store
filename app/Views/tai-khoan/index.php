@@ -17,7 +17,7 @@
         <div>
             <label class="font-medium text-gray-600">Email</label>
             <input type="email" name="email" readonly
-                class="mt-1 w-full border px-3 py-2 rounded-md bg-gray-100 cursor-not-allowed"
+                class="mt-1 w-full border px-3 py-2 rounded-md  cursor-not-allowed"
                 value="<?= htmlspecialchars($nguoi_dung->getEmail()) ?>">
         </div>
 
@@ -67,7 +67,7 @@
         <?php if (count($don_hangs) > 0): ?>
             <table class="w-full text-left table-auto">
                 <thead>
-                    <tr class="border-b bg-gray-100">
+                    <tr class="border-b ">
                         <th class="py-2 px-4">Mã đơn hàng</th>
                         <th class="py-2 px-4">Ngày mua</th>
                         <th class="py-2 px-4">Tổng tiền</th>
