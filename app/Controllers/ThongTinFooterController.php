@@ -23,4 +23,8 @@ class ThongTinFooterController
     {
         view('thong-tin-footer/hinh_thuc_thanh_toan');
     }
+      public function lienHe() 
+    {
+        view('lien-he/lien-he');
+    }
 }
