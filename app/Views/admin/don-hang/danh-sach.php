@@ -34,63 +34,74 @@
                 <div class="overflow-x-auto">
                     <table class="w-full">
                         <thead>
-                        <tr class="border-b border-border">
-                            <th class="text-left py-3 px-4 font-medium text-foreground">Mã đơn</th>
-                            <th class="text-left py-3 px-4 font-medium text-foreground">Khách hàng</th>
-                            <th class="text-left py-3 px-4 font-medium text-foreground">Trạng thái</th>
-                            <th class="text-left py-3 px-4 font-medium text-foreground">Thanh toán</th>
-                            <th class="text-left py-3 px-4 font-medium text-foreground">Tổng tiền</th>
-                            <th class="text-left py-3 px-4 font-medium text-foreground">Ngày tạo</th>
-                            <th class="text-right py-3 px-4 font-medium text-foreground">Thao tác</th>
-                        </tr>
+                            <tr class="border-b border-border">
+                                <th class="text-left py-3 px-4 font-medium text-foreground">Mã đơn</th>
+                                <th class="text-left py-3 px-4 font-medium text-foreground">Khách hàng</th>
+                                <th class="text-left py-3 px-4 font-medium text-foreground">Trạng thái</th>
+                                <th class="text-left py-3 px-4 font-medium text-foreground">Thanh toán</th>
+                                <th class="text-left py-3 px-4 font-medium text-foreground">Tổng tiền</th>
+                                <th class="text-left py-3 px-4 font-medium text-foreground">Ngày tạo</th>
+                                <th class="text-left py-3 px-4 font-medium text-foreground">Địa chỉ</th>
+                                <th class="text-right py-3 px-4 font-medium text-foreground">Thao tác</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <?php foreach ($donHangs as $dh): ?>
-                            <tr class="border-b border-border hover:bg-muted/50">
-                                <td class="py-3 px-4"><?= htmlspecialchars($dh->getMaDonHang()) ?></td>
-                                <td class="py-3 px-4">
-                                    <?php if ($dh->getNguoiDung()): ?>
-                                        <?= htmlspecialchars($dh->getNguoiDung()->getEmail()) ?>
-                                    <?php else: ?>
-                                        <?= htmlspecialchars($dh->getEmailKhach() ?? 'Khách vãng lai') ?>
-                                    <?php endif; ?>
-                                </td>
-                                <td class="py-3 px-4">
-                                    <span class="text-sm text-foreground"><?= htmlspecialchars($dh->getTrangThai()) ?></span>
-                                </td>
-                                <td class="py-3 px-4">
-                                    <span class="text-sm text-foreground"><?= htmlspecialchars($dh->getTrangThaiThanhToan()) ?></span>
-                                </td>
-                                <td class="py-3 px-4">
-                                    <span class="font-medium text-foreground"><?= $dh->getTongTienFormatted() ?></span>
-                                </td>
-                                <td class="py-3 px-4"><?= $dh->getNgayTao()->format('d/m/Y H:i') ?></td>
-                                <td class="py-3 px-4">
-                                    <div class="flex items-center justify-end space-x-2">
-                                        <a href="/admin/don-hang/chi-tiet/<?= $dh->getId() ?>" class="btn-icon-outline size-8" title="Xem chi tiết">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                                                <circle cx="12" cy="12" r="3"/>
-                                            </svg>
-                                        </a>
-                                        <a href="/admin/don-hang/sua/<?= $dh->getId() ?>" class="btn-icon-outline size-8" title="Sửa">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
-                                            </svg>
-                                        </a>
-                                        <form method="POST" action="/admin/don-hang/xoa/<?= $dh->getId() ?>" class="inline-block" onsubmit="return confirm('Bạn có chắc chắn muốn xóa đơn hàng này?')">
-                                            <button type="submit" class="btn-icon-outline size-8 text-red-600 hover:bg-red-50" title="Xóa">
+                            <?php foreach ($donHangs as $dh): ?>
+                                <tr class="border-b border-border hover:bg-muted/50">
+                                    <td class="py-3 px-4"><?= htmlspecialchars($dh->getMaDonHang()) ?></td>
+                                    <td class="py-3 px-4">
+                                        <?php if ($dh->getNguoiDung()): ?>
+                                            <?= htmlspecialchars($dh->getNguoiDung()->getEmail()) ?>
+                                        <?php else: ?>
+                                            <?= htmlspecialchars($dh->getEmailKhach() ?? 'Khách vãng lai') ?>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td class="py-3 px-4">
+                                        <span class="text-sm text-foreground"><?= htmlspecialchars($dh->getTrangThai()) ?></span>
+                                    </td>
+                                    <td class="py-3 px-4">
+                                        <span class="text-sm text-foreground"><?= htmlspecialchars($dh->getTrangThaiThanhToan()) ?></span>
+                                    </td>
+                                    <td class="py-3 px-4">
+                                        <span class="font-medium text-foreground"><?= $dh->getTongTienFormatted() ?></span>
+                                    </td>
+                                    <td class="py-3 px-4"><?= $dh->getNgayTao()->format('d/m/Y H:i') ?></td>
+                                    <td class="py-3 px-4">
+                                        <?php
+                                        $dc = $dh->getDiaChiGiaoHang(); // Giả định bạn có hàm này trong đơn hàng
+                                        if ($dc):
+                                            echo htmlspecialchars($dc->getDiaChi1() . ', ' . $dc->getXaPhuong() . ', ' . $dc->getHuyenQuan() . ', ' . $dc->getThanhPho() . ', ' . $dc->getTinhThanh());
+                                        else:
+                                            echo '—';
+                                        endif;
+                                        ?>
+                                    </td>
+                                    <td class="py-3 px-4">
+                                        <div class="flex items-center justify-end space-x-2">
+                                            <a href="/admin/don-hang/chi-tiet/<?= $dh->getId() ?>" class="btn-icon-outline size-8" title="Xem chi tiết">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                    <path d="M3 6h18"/>
-                                                    <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
-                                                    <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                                                    <circle cx="12" cy="12" r="3" />
                                                 </svg>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                        <?php endforeach; ?>
+                                            </a>
+                                            <a href="/admin/don-hang/sua/<?= $dh->getId() ?>" class="btn-icon-outline size-8" title="Sửa">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                    <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+                                                </svg>
+                                            </a>
+                                            <form method="POST" action="/admin/don-hang/xoa/<?= $dh->getId() ?>" class="inline-block" onsubmit="return confirm('Bạn có chắc chắn muốn xóa đơn hàng này?')">
+                                                <button type="submit" class="btn-icon-outline size-8 text-red-600 hover:bg-red-50" title="Xóa">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                        <path d="M3 6h18" />
+                                                        <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
+                                                        <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+                                                    </svg>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>

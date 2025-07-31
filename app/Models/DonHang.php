@@ -388,7 +388,7 @@ class DonHang
         $this->setMaGiamGia($maGiamGia);
         $this->setTienGiamGia($tienGiam);
         $maGiamGia->tangSoLuongSuDung();
-        
+
         return true;
     }
 
@@ -404,4 +404,27 @@ class DonHang
     {
         return $this->maGiamGia !== null && $this->tienGiamGia > 0;
     }
+    
+    public function setDiaChiGiaoHang(DiaChiDonHang $diaChi): self
+    {
+        // Loại bỏ địa chỉ cũ nếu đã có
+        foreach ($this->diaChis as $existing) {
+            if ($existing->getLoai() === 'giao_hang') {
+                $this->diaChis->removeElement($existing);
+                break;
+            }
+        }
+
+        // Gắn địa chỉ mới
+        $diaChi->setLoai('giao_hang');
+        $this->diaChis->add($diaChi);
+
+        // Liên kết ngược nếu cần
+        if ($diaChi->getDonHang() !== $this) {
+            $diaChi->setDonHang($this);
+        }
+
+        return $this;
+    }
+    
 }

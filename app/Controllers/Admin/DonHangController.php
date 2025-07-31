@@ -4,6 +4,7 @@ namespace App\Controllers\Admin;
 
 use App\Models\DonHang;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Models\DiaChiDonHang;
 
 class DonHangController
 {
@@ -114,6 +115,21 @@ class DonHangController
                 $donHang->setNgayNhan(new \DateTime($_POST['ngay_nhan']));
             }
             $donHang->setGhiChu($_POST['ghi_chu'] ?? null);
+
+            $diaChi = $donHang->getDiaChiGiaoHang();
+            if (!$diaChi) {
+                $diaChi = new DiaChiDonHang();
+                $diaChi->setLoai('giao_hang'); // đảm bảo được phân biệt
+                $diaChi->setDonHang($donHang);
+                $donHang->getDiaChis()->add($diaChi); // nếu là Collection
+                $this->em->persist($diaChi);
+            }
+
+            $diaChi->setDiaChi1($_POST['dia_chi_1'] ?? '');
+            $diaChi->setDiaChi2($_POST['dia_chi_2'] ?? '');
+            $diaChi->setXaPhuong($_POST['xa_phuong'] ?? '');
+            $diaChi->setHuyenQuan($_POST['huyen_quan'] ?? '');
+            $diaChi->setTinhThanh($_POST['tinh_thanh'] ?? '');
 
             $this->em->flush();
             $_SESSION['success'] = 'Cập nhật đơn hàng thành công!';
