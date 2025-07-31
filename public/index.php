@@ -39,6 +39,9 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
     $r->addRoute('GET', '/bao-hanh', ['App\Controllers\ThongTinFooterController', 'baoHanh']);
     $r->addRoute('GET', '/doi-tra', ['App\Controllers\ThongTinFooterController', 'doiTraSanPham']);
     $r->addRoute('GET', '/hinh-thuc-thanh-toan', ['App\Controllers\ThongTinFooterController', 'hinhThucThanhToan']);
+    $r->addRoute('GET', '/lien-he', ['App\Controllers\ThongTinFooterController', 'lienHe']);
+
+
 
     // Admin routes
     $r->addRoute(['GET', 'POST'], '/admin/login', ['App\Controllers\Admin\AdminController', 'login']);
