@@ -46,7 +46,7 @@ class GioHangController
             echo json_encode(['success' => false, 'message' => 'Sản phẩm không tồn tại hoặc đã hết hàng.']);
             return;
         }
-
+        // Phân nhánh người dùng và  khách
         if (isset($_SESSION['user_id'])) {
             $this->themVaoGioNguoiDung($_SESSION['user_id'], $bienThe, $soLuong);
         } else {
