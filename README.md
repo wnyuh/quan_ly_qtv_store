@@ -269,7 +269,7 @@ class ProductController
 ## Công nghệ sử dụng
 
 - **Backend**: PHP với FastRoute cho routing
-- **Database**: Doctrine ORM với SQLite
+- **Database**: Doctrine ORM với MySQL
 - **Email**: PHPMailer cho gửi email
 - **Frontend**: Tailwind CSS với shadcn theme
 - **Build Tool**: Tailwind CLI cho CSS compilation

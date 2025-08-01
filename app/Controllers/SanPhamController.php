@@ -8,6 +8,7 @@ use App\Models\ThuongHieu;
 
 class SanPhamController
 {
+
     public function timKiem()
     {
         $em = require __DIR__ . '/../../config/doctrine.php';
@@ -24,9 +25,9 @@ class SanPhamController
 
         $qb = $em->createQueryBuilder();
         $qb->select('sp')
-           ->from(SanPham::class, 'sp')
-           ->where('sp.kichHoat = :kichHoat')
-           ->setParameter('kichHoat', true);
+            ->from(SanPham::class, 'sp')
+            ->where('sp.kichHoat = :kichHoat')
+            ->setParameter('kichHoat', true);
 
         if (!empty($tuKhoaTimKiem)) {
             $qb->andWhere($qb->expr()->orX(
@@ -38,22 +39,22 @@ class SanPhamController
 
         if ($danhMucId) {
             $qb->andWhere('sp.danhMuc = :danhMucId')
-               ->setParameter('danhMucId', $danhMucId);
+                ->setParameter('danhMucId', $danhMucId);
         }
 
         if ($thuongHieuId) {
             $qb->andWhere('sp.thuongHieu = :thuongHieuId')
-               ->setParameter('thuongHieuId', $thuongHieuId);
+                ->setParameter('thuongHieuId', $thuongHieuId);
         }
 
         if ($giaThapNhat) {
             $qb->andWhere('sp.gia >= :giaThapNhat')
-               ->setParameter('giaThapNhat', $giaThapNhat);
+                ->setParameter('giaThapNhat', $giaThapNhat);
         }
 
         if ($giaCaoNhat) {
             $qb->andWhere('sp.gia <= :giaCaoNhat')
-               ->setParameter('giaCaoNhat', $giaCaoNhat);
+                ->setParameter('giaCaoNhat', $giaCaoNhat);
         }
 
         switch ($sapXep) {
@@ -80,15 +81,15 @@ class SanPhamController
         $tongTrang = ceil($tongSanPham / $gioiHan);
 
         $sanPhams = $qb->setFirstResult($boQua)
-                      ->setMaxResults($gioiHan)
-                      ->getQuery()
-                      ->getResult();
+            ->setMaxResults($gioiHan)
+            ->getQuery()
+            ->getResult();
 
         $danhMucs = $em->getRepository(DanhMuc::class)
-                      ->findBy(['kichHoat' => true], ['thuTu' => 'ASC']);
+            ->findBy(['kichHoat' => true], ['thuTu' => 'ASC']);
 
         $thuongHieus = $em->getRepository(ThuongHieu::class)
-                         ->findBy(['kichHoat' => true], ['ten' => 'ASC']);
+            ->findBy(['kichHoat' => true], ['ten' => 'ASC']);
 
         $data = [
             'pageTitle' => 'Tìm Kiếm Sản Phẩm',
@@ -108,7 +109,6 @@ class SanPhamController
 
         view('san-pham/tim-kiem', $data);
     }
-
     public function chiTiet($duongDan)
     {
         $em = require __DIR__ . '/../../config/doctrine.php';
