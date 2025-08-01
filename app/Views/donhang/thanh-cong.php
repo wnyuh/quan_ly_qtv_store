@@ -1,3 +1,5 @@
+<?php include __DIR__ . '../don-hang/chi-tiet.php'; ?>
+
 <div class="max-w-4xl mx-auto p-6">
     <!-- Success Header -->
     <div class="text-center mb-8">

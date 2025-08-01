@@ -5,7 +5,10 @@
 
     <div class="rounded-xl shadow border p-6 space-y-3">
         <h3 class="text-xl font-semibold mb-4">📋 Lịch sử mua hàng</h3>
-        <div class="overflow-x-auto w-full">
+        <?php foreach ($don_hangs as $donHang): ?>
+            <?php include __DIR__ . '/../don-hang/chi-tiet.php'; ?>
+        <?php endforeach; ?>
+        <!-- <div class="overflow-x-auto w-full">
             <?php if (count($don_hangs) > 0): ?>
                 <table class="w-full table-auto text-sm text-left border-collapse ">
                     <thead class="text-center">
@@ -31,6 +34,6 @@
 
                 <p class="text-gray-600">Bạn chưa có đơn hàng nào.</p>
             <?php endif; ?>
-        </div>
+        </div> -->
     </div>
 </div>
