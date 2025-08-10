@@ -127,6 +127,7 @@ $dispatcher = FastRoute\simpleDispatcher(function (FastRoute\RouteCollector $r) 
 
     // Route cho trang "Đơn hàng của tôi"
     $r->addRoute('GET', '/don-hang', ['App\Controllers\NguoiDungController', 'donHang']);
+    $r->addRoute('GET', '/don-hang/{code:[A-Za-z0-9\-]+}', ['App\Controllers\NguoiDungController', 'chiTiet']);
 });
 
 // 4. Fetch the request method and URI

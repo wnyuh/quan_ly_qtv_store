@@ -132,4 +132,43 @@ class NguoiDungController
             'don_hangs' => $don_hangs
         ]);
     }
+
+    public function chiTiet(string $code)
+    {
+        // Bắt buộc đăng nhập
+        if (!isset($_SESSION['user_id'])) {
+            $_SESSION['redirect_after_login'] = "/don-hang/{$code}";
+            header("Location: /dang-nhap");
+            exit;
+        }
+
+        // Lấy entity người dùng hiện tại
+        $nguoi_dung = $this->em->getRepository(NguoiDung::class)->find((int)$_SESSION['user_id']);
+
+        // Tìm đơn theo MÃ ĐƠN và phải thuộc về chính user này
+        $donHang = $this->em->getRepository(DonHang::class)->findOneBy([
+            'maDonHang' => $code,
+            'nguoiDung' => $nguoi_dung,
+        ]);
+
+        if (!$donHang) {
+            // Không tìm thấy hoặc không thuộc user -> quay về danh sách
+            header('Location: /don-hang?error=not_found');
+            exit;
+        }
+
+        // (Tuỳ chọn) chạm vào các quan hệ để đảm bảo đã load (tránh N+1 nếu lazy)
+        foreach ($donHang->getChiTiets() as $ct) {
+            $ct->getBienTheSanPham()->getSanPham()->getTen();
+        }
+        $firstThanhToan = $donHang->getThanhToans()->first();
+        if ($firstThanhToan) { $firstThanhToan->getPhuongThucThanhToan(); }
+
+        // Render đúng view (khớp với view() trong index.php)
+        view('don-hang/chiTiet', [
+            'donHang' => $donHang
+        ]);
+    }
+
+
 }
