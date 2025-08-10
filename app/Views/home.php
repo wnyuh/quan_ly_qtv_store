@@ -1,13 +1,58 @@
 <!-- Hero Section -->
-<section class="bg-gradient-to-r from-primary/10 to-primary/5 rounded-xl p-6 mb-6">
-    <div class="text-center">
-        <h1 class="text-xl font-bold text-foreground mb-2 md:mb-8">Cửa Hàng Điện Thoại Hàng Đầu</h1>
-        <p class="text-lg text-muted-foreground mb-6 hidden md:block ">Khám phá các mẫu iPhone mới nhất với giá tốt nhất</p>
-        <a href="/tim-kiem-san-pham" class="px-8 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors font-medium">
-            Xem Sản Phẩm
-        </a>
+<!-- Link Swiper CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+<section class="swiper bg-gradient-to-r from-primary/10 to-primary/5 rounded-xl p-6 mb-6">
+    <div class="swiper-wrapper">
+        <!-- Slide 1 -->
+        <div class="swiper-slide">
+            <div class="text-center">
+                <img src="/images/quangcao9.jpg" alt="Khuyến mãi " class="mx-auto rounded-lg mb-4" />
+            </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="swiper-slide">
+            <div class="text-center">
+                <img src="/images/quangcao4.png" alt="Khuyến mãi" class="mx-auto rounded-lg mb-4" />
+            </div>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="swiper-slide">
+            <div class="text-center">
+                <img src="/images/quangcao2.png" alt="Mua trả góp iPhone" class="mx-auto rounded-lg mb-4" />
+            </div>
+        </div>
     </div>
+
+    <!-- Nút điều khiển -->
+    <div class="swiper-pagination"></div>
+    <div class="swiper-button-prev"></div>
+    <div class="swiper-button-next"></div>
 </section>
+
+<!-- Link Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<script>
+    new Swiper('.swiper', {
+        loop: true,
+        autoplay: {
+            delay: 3000, // 3 giây tự chuyển
+            disableOnInteraction: false
+        },
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev'
+        }
+    });
+</script>
+
 
 <!-- Categories Section -->
 <div class="container mx-auto mb-12" x-data="{ scrollX: 0 }">
