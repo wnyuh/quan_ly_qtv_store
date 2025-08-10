@@ -18,8 +18,13 @@
                     </thead>
                     <tbody class="text-center">
                         <?php foreach ($don_hangs as $don_hang): ?>
-                            <tr class="border-b hover:bg-gray-800 transition ">
-                                <td class="py-3 px-4 font-medium"><?= $don_hang->getId() ?></td>
+                            <tr class="border-b hover:bg-gray-300 transition ">
+                                <td class="py-3 px-4 font-medium">
+                                    <a class="underline"
+                                       href="/don-hang/<?= urlencode($don_hang->getMaDonHang()) ?>">
+                                        <?= htmlspecialchars($don_hang->getMaDonHang()) ?>
+                                    </a>
+                                </td>
                                 <td class="py-2 px-4"><?= $don_hang->getNgayTao()->format('d/m/Y') ?></td>
                                 <td class="py-2 px-4"><?= number_format($don_hang->getTongTien(), 0, ',', '.') ?>₫</td>
                                 <td class="py-2 px-4"><?= $don_hang->getTrangThai() ?></td>
