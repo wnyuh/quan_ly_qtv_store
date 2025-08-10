@@ -83,8 +83,16 @@ class GioHangController
                 'message' => 'Sản phẩm đã được thêm vào giỏ hàng.',
                 'cartItemCount' => $totalItems // **NEW**: Add count to response
             ]);
-        } catch (\Exception $e) {
-            echo json_encode(['success' => false, 'message' => 'Không thể thêm sản phẩm vào giỏ hàng.']);
+        }
+        catch (\Exception $e) {
+            $errorMessage = $e->getMessage();
+            echo json_encode(
+                [
+                    'success' => false,
+                    'message' => 'Không thể thêm sản phẩm vào giỏ hàng.',
+                    "e" => $errorMessage
+                ]
+            );
         }
     }
 
