@@ -32,8 +32,8 @@ class DiaChiNguoiDung
     #[ORM\Column(name: 'dia_chi_1', type: 'string', length: 255)]
     private string $diaChi1;
 
-    #[ORM\Column(name: 'dia_chi_2', type: 'string', length: 255, nullable: true)]
-    private ?string $diaChi2 = null;
+//    #[ORM\Column(name: 'dia_chi_2', type: 'string', length: 255, nullable: true)]
+//    private ?string $diaChi2 = null;
 
     #[ORM\Column(name: 'thanh_pho', type: 'string', length: 100)]
     private string $thanhPho;
@@ -41,8 +41,8 @@ class DiaChiNguoiDung
     #[ORM\Column(name: 'tinh_thanh', type: 'string', length: 100)]
     private string $tinhThanh;
 
-    #[ORM\Column(name: 'ma_buu_dien', type: 'string', length: 20)]
-    private string $maBuuDien;
+//    #[ORM\Column(name: 'ma_buu_dien', type: 'string', length: 20)]
+//    private string $maBuuDien;
 
     #[ORM\Column(name: 'quoc_gia', type: 'string', length: 100)]
     private string $quocGia = 'Việt Nam';
@@ -134,16 +134,16 @@ class DiaChiNguoiDung
         return $this;
     }
 
-    public function getDiaChi2(): ?string
-    {
-        return $this->diaChi2;
-    }
+//    public function getDiaChi2(): ?string
+//    {
+//        return $this->diaChi2;
+//    }
 
-    public function setDiaChi2(?string $diaChi2): self
-    {
-        $this->diaChi2 = $diaChi2;
-        return $this;
-    }
+//    public function setDiaChi2(?string $diaChi2): self
+//    {
+//        $this->diaChi2 = $diaChi2;
+//        return $this;
+//    }
 
     public function getThanhPho(): string
     {
@@ -167,16 +167,16 @@ class DiaChiNguoiDung
         return $this;
     }
 
-    public function getMaBuuDien(): string
-    {
-        return $this->maBuuDien;
-    }
-
-    public function setMaBuuDien(string $maBuuDien): self
-    {
-        $this->maBuuDien = $maBuuDien;
-        return $this;
-    }
+//    public function getMaBuuDien(): string
+//    {
+//        return $this->maBuuDien;
+//    }
+//
+//    public function setMaBuuDien(string $maBuuDien): self
+//    {
+//        $this->maBuuDien = $maBuuDien;
+//        return $this;
+//    }
 
     public function getQuocGia(): string
     {

@@ -126,7 +126,7 @@ class DonHangController
             }
 
             $diaChi->setDiaChi1($_POST['dia_chi_1'] ?? '');
-            $diaChi->setDiaChi2($_POST['dia_chi_2'] ?? '');
+//            $diaChi->setDiaChi2($_POST['dia_chi_2'] ?? '');
             $diaChi->setXaPhuong($_POST['xa_phuong'] ?? '');
             $diaChi->setHuyenQuan($_POST['huyen_quan'] ?? '');
             $diaChi->setTinhThanh($_POST['tinh_thanh'] ?? '');

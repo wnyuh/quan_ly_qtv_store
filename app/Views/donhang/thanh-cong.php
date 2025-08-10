@@ -57,7 +57,7 @@
                 <h3 class="font-semibold text-foreground">Địa chỉ giao hàng</h3>
                 <?php $diaChiGiaoHang = $donHang->getDiaChiGiaoHang(); ?>
                 <?php if ($diaChiGiaoHang): ?>
-                    <div class="text-sm text-muted-foreground space-y-1">
+                    <div class="text-lg text-muted-foreground space-y-1">
                         <p class="font-medium text-foreground"><?= htmlspecialchars($diaChiGiaoHang->getHoTen()) ?></p>
                         <?php if ($diaChiGiaoHang->getCongTy()): ?>
                             <p><?= htmlspecialchars($diaChiGiaoHang->getCongTy()) ?></p>

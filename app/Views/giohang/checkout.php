@@ -94,20 +94,20 @@
                                 <?php endif; ?>
                             </div>
 
-                            <div>
-                                <label for="guest_phone" class="block text-sm font-medium text-foreground mb-2">Số điện thoại *</label>
-                                <input 
-                                    id="guest_phone" 
-                                    name="guest_phone" 
-                                    type="tel" 
-                                    required
-                                    value="<?= htmlspecialchars($formData['guest_phone'] ?? '') ?>"
-                                    class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 <?= isset($errors['guest_phone']) ? 'border-destructive' : '' ?>"
-                                    placeholder="0123456789">
-                                <?php if (isset($errors['guest_phone'])): ?>
-                                    <p class="text-sm text-destructive mt-1"><?= htmlspecialchars($errors['guest_phone']) ?></p>
-                                <?php endif; ?>
-                            </div>
+<!--                            <div>-->
+<!--                                <label for="guest_phone" class="block text-sm font-medium text-foreground mb-2">Số điện thoại *</label>-->
+<!--                                <input -->
+<!--                                    id="guest_phone" -->
+<!--                                    name="guest_phone" -->
+<!--                                    type="tel" -->
+<!--                                    required-->
+<!--                                    value="--><?php //= htmlspecialchars($formData['guest_phone'] ?? '') ?><!--"-->
+<!--                                    class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 --><?php //= isset($errors['guest_phone']) ? 'border-destructive' : '' ?><!--"-->
+<!--                                    placeholder="0123456789">-->
+<!--                                --><?php //if (isset($errors['guest_phone'])): ?>
+<!--                                    <p class="text-sm text-destructive mt-1">--><?php //= htmlspecialchars($errors['guest_phone']) ?><!--</p>-->
+<!--                                --><?php //endif; ?>
+<!--                            </div>-->
                         </div>
                         <hr class="border-border">
                     <?php endif; ?>
@@ -171,16 +171,16 @@
                             <?php endif; ?>
                         </div>
 
-                        <div>
-                            <label for="dia_chi_2" class="block text-sm font-medium text-foreground mb-2">Địa chỉ 2 (tùy chọn)</label>
-                            <input 
-                                id="dia_chi_2" 
-                                name="dia_chi_2" 
-                                type="text"
-                                value="<?= htmlspecialchars($formData['dia_chi_2'] ?? '') ?>"
-                                class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                                placeholder="Căn hộ, tầng, khu vực...">
-                        </div>
+<!--                        <div>-->
+<!--                            <label for="dia_chi_2" class="block text-sm font-medium text-foreground mb-2">Địa chỉ 2 (tùy chọn)</label>-->
+<!--                            <input -->
+<!--                                id="dia_chi_2" -->
+<!--                                name="dia_chi_2" -->
+<!--                                type="text"-->
+<!--                                value="--><?php //= htmlspecialchars($formData['dia_chi_2'] ?? '') ?><!--"-->
+<!--                                class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"-->
+<!--                                placeholder="Căn hộ, tầng, khu vực...">-->
+<!--                        </div>-->
 
                         <div class="grid grid-cols-1 gap-4">
                             <!-- Province/City Selection -->
@@ -280,20 +280,20 @@
                         </div>
 
                         <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <label for="ma_buu_dien" class="block text-sm font-medium text-foreground mb-2">Mã bưu điện *</label>
-                                <input 
-                                    id="ma_buu_dien" 
-                                    name="ma_buu_dien" 
-                                    type="text" 
-                                    required
-                                    value="<?= htmlspecialchars($formData['ma_buu_dien'] ?? '') ?>"
-                                    class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 <?= isset($errors['ma_buu_dien']) ? 'border-destructive' : '' ?>"
-                                    placeholder="70000">
-                                <?php if (isset($errors['ma_buu_dien'])): ?>
-                                    <p class="text-sm text-destructive mt-1"><?= htmlspecialchars($errors['ma_buu_dien']) ?></p>
-                                <?php endif; ?>
-                            </div>
+<!--                            <div>-->
+<!--                                <label for="ma_buu_dien" class="block text-sm font-medium text-foreground mb-2">Mã bưu điện *</label>-->
+<!--                                <input -->
+<!--                                    id="ma_buu_dien" -->
+<!--                                    name="ma_buu_dien" -->
+<!--                                    type="text" -->
+<!--                                    required-->
+<!--                                    value="--><?php //= htmlspecialchars($formData['ma_buu_dien'] ?? '') ?><!--"-->
+<!--                                    class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 --><?php //= isset($errors['ma_buu_dien']) ? 'border-destructive' : '' ?><!--"-->
+<!--                                    placeholder="70000">-->
+<!--                                --><?php //if (isset($errors['ma_buu_dien'])): ?>
+<!--                                    <p class="text-sm text-destructive mt-1">--><?php //= htmlspecialchars($errors['ma_buu_dien']) ?><!--</p>-->
+<!--                                --><?php //endif; ?>
+<!--                            </div>-->
 
                             <div>
                                 <label for="so_dien_thoai" class="block text-sm font-medium text-foreground mb-2">Số điện thoại *</label>
