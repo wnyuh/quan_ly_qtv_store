@@ -393,9 +393,9 @@ class GioHangController
             if (empty($data['guest_email']) || !filter_var($data['guest_email'], FILTER_VALIDATE_EMAIL)) {
                 $errors['guest_email'] = 'Email không hợp lệ';
             }
-            if (empty($data['guest_phone'])) {
-                $errors['guest_phone'] = 'Số điện thoại không được để trống';
-            }
+//            if (empty($data['guest_phone'])) {
+//                $errors['guest_phone'] = 'Số điện thoại không được để trống';
+//            }
         }
 
         // Address validation
@@ -417,9 +417,9 @@ class GioHangController
         if (empty($data['xa_phuong'])) {
             $errors['xa_phuong'] = 'Phường/xã không được để trống';
         }
-        if (empty($data['ma_buu_dien'])) {
-            $errors['ma_buu_dien'] = 'Mã bưu điện không được để trống';
-        }
+//        if (empty($data['ma_buu_dien'])) {
+//            $errors['ma_buu_dien'] = 'Mã bưu điện không được để trống';
+//        }
         if (empty($data['so_dien_thoai'])) {
             $errors['so_dien_thoai'] = 'Số điện thoại không được để trống';
         }
@@ -505,12 +505,12 @@ class GioHangController
             $diaChiGiaoHang->setTen($data['ten']);
             $diaChiGiaoHang->setCongTy($data['cong_ty'] ?? null);
             $diaChiGiaoHang->setDiaChi1($data['dia_chi_1']);
-            $diaChiGiaoHang->setDiaChi2($data['dia_chi_2'] ?? null);
+//            $diaChiGiaoHang->setDiaChi2($data['dia_chi_2'] ?? null);
             $diaChiGiaoHang->setThanhPho($data['thanh_pho'] ?? $data['tinh_thanh']); // Use province for city if city not provided
             $diaChiGiaoHang->setTinhThanh($data['tinh_thanh']);
             $diaChiGiaoHang->setHuyenQuan($data['huyen_quan']);
             $diaChiGiaoHang->setXaPhuong($data['xa_phuong']);
-            $diaChiGiaoHang->setMaBuuDien($data['ma_buu_dien']);
+//            $diaChiGiaoHang->setMaBuuDien($data['ma_buu_dien']);
             $diaChiGiaoHang->setSoDienThoai($data['so_dien_thoai']);
 
             $this->em->persist($diaChiGiaoHang);

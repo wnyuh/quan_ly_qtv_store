@@ -32,8 +32,8 @@ class DiaChiDonHang
     #[ORM\Column(name: 'dia_chi_1', type: 'string', length: 255)]
     private string $diaChi1;
 
-    #[ORM\Column(name: 'dia_chi_2', type: 'string', length: 255, nullable: true)]
-    private ?string $diaChi2 = null;
+//    #[ORM\Column(name: 'dia_chi_2', type: 'string', length: 255, nullable: true)]
+//    private ?string $diaChi2 = null;
 
     #[ORM\Column(name: 'thanh_pho', type: 'string', length: 100)]
     private string $thanhPho;
@@ -47,8 +47,8 @@ class DiaChiDonHang
     #[ORM\Column(name: 'xa_phuong', type: 'string', length: 100, nullable: true)]
     private ?string $xaPhuong = null;
 
-    #[ORM\Column(name: 'ma_buu_dien', type: 'string', length: 20)]
-    private string $maBuuDien;
+//    #[ORM\Column(name: 'ma_buu_dien', type: 'string', length: 20)]
+//    private string $maBuuDien;
 
     #[ORM\Column(name: 'quoc_gia', type: 'string', length: 100)]
     private string $quocGia = 'Việt Nam';
@@ -79,14 +79,14 @@ class DiaChiDonHang
     public function setCongTy(?string $congTy): self { $this->congTy = $congTy; return $this; }
     public function getDiaChi1(): string { return $this->diaChi1; }
     public function setDiaChi1(string $diaChi1): self { $this->diaChi1 = $diaChi1; return $this; }
-    public function getDiaChi2(): ?string { return $this->diaChi2; }
-    public function setDiaChi2(?string $diaChi2): self { $this->diaChi2 = $diaChi2; return $this; }
+//    public function getDiaChi2(): ?string { return $this->diaChi2; }
+//    public function setDiaChi2(?string $diaChi2): self { $this->diaChi2 = $diaChi2; return $this; }
     public function getThanhPho(): string { return $this->thanhPho; }
     public function setThanhPho(string $thanhPho): self { $this->thanhPho = $thanhPho; return $this; }
     public function getTinhThanh(): string { return $this->tinhThanh; }
     public function setTinhThanh(string $tinhThanh): self { $this->tinhThanh = $tinhThanh; return $this; }
-    public function getMaBuuDien(): string { return $this->maBuuDien; }
-    public function setMaBuuDien(string $maBuuDien): self { $this->maBuuDien = $maBuuDien; return $this; }
+//    public function getMaBuuDien(): string { return $this->maBuuDien; }
+//    public function setMaBuuDien(string $maBuuDien): self { $this->maBuuDien = $maBuuDien; return $this; }
     public function getQuocGia(): string { return $this->quocGia; }
     public function setQuocGia(string $quocGia): self { $this->quocGia = $quocGia; return $this; }
     public function getSoDienThoai(): ?string { return $this->soDienThoai; }
@@ -100,9 +100,9 @@ class DiaChiDonHang
     public function getDiaChiDayDu(): string
     {
         $diaChi = $this->diaChi1;
-        if ($this->diaChi2) {
-            $diaChi .= ', ' . $this->diaChi2;
-        }
+//        if ($this->diaChi2) {
+//            $diaChi .= ', ' . $this->diaChi2;
+//        }
         
         // Use hierarchical address if available
         if ($this->xaPhuong) {
@@ -114,9 +114,9 @@ class DiaChiDonHang
         $diaChi .= ', ' . $this->tinhThanh;
         
         // Add postal code if available
-        if ($this->maBuuDien) {
-            $diaChi .= ' ' . $this->maBuuDien;
-        }
+//        if ($this->maBuuDien) {
+//            $diaChi .= ' ' . $this->maBuuDien;
+//        }
         
         return $diaChi;
     }

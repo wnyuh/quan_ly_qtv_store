@@ -77,16 +77,10 @@
                         <h3 class="text-lg font-semibold">📍 Cập nhật địa chỉ giao hàng</h3>
                     </header>
 
-
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-4 border-b border-gray-200">
                         <div>
                             <label class="block text-sm font-medium mb-1">Địa chỉ 1 *</label>
                             <input type="text" name="dia_chi_1" class="w-full border rounded px-3 py-2" value="<?= htmlspecialchars($donHang->getDiaChiGiaoHang()?->getDiaChi1() ?? '') ?>">
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium mb-1">Địa chỉ 2</label>
-                            <input type="text" name="dia_chi_2" class="w-full border rounded px-3 py-2" value="<?= htmlspecialchars($donHang?->getDiaChiGiaoHang()?->getDiaChi2() ?? '') ?>">
                         </div>
                     </div>
 
